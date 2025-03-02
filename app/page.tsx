@@ -18,7 +18,7 @@ export default function Page() {
         return () => clearInterval(interval);
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault();
         if (email) {
             // In a real app, this would send the email to a backend
