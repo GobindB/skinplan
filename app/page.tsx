@@ -120,13 +120,13 @@ export default function Page() {
                                         JD
                                     </div>
                                     <div className="ml-4" data-oid="b::.ox8">
-                                        <div className="font-medium" data-oid="it70.6a">
-                                            Jane's Skincare Plan
-                                        </div>
-                                        <div className="text-sm text-gray-500" data-oid="-ek6wpd">
-                                            Goal: Hydration & Anti-aging
-                                        </div>
+                                    <div className="font-medium" data-oid="it70.6a">
+                                        Jane&#39;s Skincare Plan
                                     </div>
+                                    <div className="text-sm text-gray-500" data-oid="-ek6wpd">
+                                        Goal: Hydration &amp; Anti-aging
+                                    </div>
+                                </div>
                                 </div>
 
                                 <div className="space-y-4" data-oid="f_b4i5o">
@@ -211,7 +211,7 @@ export default function Page() {
                                 Set Your Goal
                             </h3>
                             <p className="text-gray-600" data-oid="mw7kl61">
-                                Choose your skincare focus—whether it's clearer skin, hydration, or
+                                Choose your skincare focus—whether it&#39;s clearer skin, hydration, or
                                 anti-aging.
                             </p>
                         </div>
