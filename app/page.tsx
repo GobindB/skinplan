@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 export default function Page() {
     const [email, setEmail] = useState('');
     const [isVisible, setIsVisible] = useState(false);
-    const [waitlistCount, setWaitlistCount] = useState(127);
+    const [waitlistCount, setWaitlistCount] = useState(13127);
 
     useEffect(() => {
         setIsVisible(true);
@@ -20,28 +20,30 @@ export default function Page() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (email) {
-            try {
-                const response = await fetch("https://script.google.com/macros/s/AKfycbxo83_S-uBeMuCZBFBLwSuFvQhkRY1wTp6hLiBoNb7fqPzw5XZJGj1WZ9PApm--fsmdwQ/exec", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email }),
-                });
+        if (!email) return alert("Please enter an email.");
     
-                const data = await response.json();
-                if (data.status === "success") {
-                    alert("Thanks for joining our waitlist! We'll be in touch soon.");
-                    setEmail("");
-                    setWaitlistCount((prev) => prev + 1);
-                } else {
-                    alert("Something went wrong. Please try again.");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Failed to submit. Please check your connection.");
+        try {
+            const response = await fetch("/api/submit-email", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+    
+            const data = await response.json();
+            if (data.success) {
+                alert("Thanks for joining our waitlist! We'll be in touch soon.");
+                setEmail("");
+                setWaitlistCount((prev) => prev + 1);
+            } else {
+                alert("Something went wrong. Please try again.");
             }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to submit. Please check your connection.");
         }
-    };    
+    };
+    
+    
 
     return (
         <div
