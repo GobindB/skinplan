@@ -14,26 +14,26 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount }) => 
   };
 
   return (
-    <section id="waitlist-section" className="py-16 md:py-24 bg-teal-600 text-white">
-      <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">
+    <section id="waitlist-section" className="py-12 sm:py-16 md:py-24 bg-teal-600 text-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
           Join the Waitlist – Be the First to Try It!
         </h2>
-        <p className="text-teal-100 mb-8 max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base text-teal-100 mb-6 sm:mb-8 max-w-2xl mx-auto">
           Get early access to our skincare planning platform and start your journey to
           healthier, more radiant skin.
         </p>
 
-        <div className="bg-white rounded-xl p-8 shadow-lg">
-          <h3 className="text-2xl font-semibold text-slate-800 mb-6">
+        <div className="bg-white rounded-xl p-6 sm:p-8 shadow-lg">
+          <h3 className="text-xl sm:text-2xl font-semibold text-slate-800 mb-4 sm:mb-6">
             Get Your Personalized Skincare Plan
           </h3>
 
-          <ul className="text-left text-slate-700 mb-8 max-w-md mx-auto">
-            <li className="flex items-start mb-4">
+          <ul className="text-left text-slate-700 mb-6 sm:mb-8 max-w-md mx-auto space-y-3 sm:space-y-4">
+            <li className="flex items-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-teal-500 mr-2 mt-0.5"
+                className="h-4 sm:h-5 w-4 sm:w-5 text-teal-500 mr-2 mt-0.5"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -43,27 +43,12 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount }) => 
                   clipRule="evenodd"
                 />
               </svg>
-              <span>Structured plans tailored to YOUR skin</span>
-            </li>
-            <li className="flex items-start mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-teal-500 mr-2 mt-0.5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Measurable results without expensive trial & error</span>
+              <span className="text-sm sm:text-base">Structured plans tailored to YOUR skin</span>
             </li>
             <li className="flex items-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-teal-500 mr-2 mt-0.5"
+                className="h-4 sm:h-5 w-4 sm:w-5 text-teal-500 mr-2 mt-0.5"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -73,7 +58,22 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount }) => 
                   clipRule="evenodd"
                 />
               </svg>
-              <span>Science-backed, AI-powered personalization</span>
+              <span className="text-sm sm:text-base">Measurable results without expensive trial & error</span>
+            </li>
+            <li className="flex items-start">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 sm:h-5 w-4 sm:w-5 text-teal-500 mr-2 mt-0.5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="text-sm sm:text-base">Science-backed, AI-powered personalization</span>
             </li>
           </ul>
 
@@ -84,28 +84,28 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount }) => 
             <input
               type="email"
               placeholder="Enter your email for early access"
-              className="px-4 py-3 rounded-lg border border-slate-200 flex-grow focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800"
+              className="px-4 py-3 rounded-lg border border-slate-200 flex-grow focus:outline-none focus:ring-2 focus:ring-teal-500 text-slate-800 text-sm sm:text-base"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors"
+              className="px-4 sm:px-6 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors text-sm sm:text-base whitespace-nowrap"
             >
               Join the Waitlist
             </button>
           </form>
 
-          <p className="text-sm text-slate-500 mt-4">
+          <p className="text-xs sm:text-sm text-slate-500 mt-4">
             Join {waitlistCount.toLocaleString('en-US')} others already signed up!
           </p>
 
-          <div className="flex justify-center gap-4 mt-6">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-6">
+            <div className="inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-[10px] sm:text-xs">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 mr-1"
+                className="h-3 sm:h-4 w-3 sm:w-4 mr-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -119,10 +119,10 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount }) => 
               </svg>
               Backed by research
             </div>
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs">
+            <div className="inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-[10px] sm:text-xs">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 mr-1"
+                className="h-3 sm:h-4 w-3 sm:w-4 mr-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

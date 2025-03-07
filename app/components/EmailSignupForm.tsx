@@ -33,23 +33,23 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount 
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 mb-6">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 mb-4 sm:mb-6">
         <input
           type="email"
           placeholder="Enter your email for early access"
-          className="px-4 py-3 rounded-lg border border-slate-200 flex-grow focus:outline-none focus:ring-2 focus:ring-teal-500"
+          className="px-4 py-3 rounded-lg border border-slate-200 flex-grow focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <button
           type="submit"
-          className="px-6 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors"
+          className="px-4 sm:px-6 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors text-sm sm:text-base whitespace-nowrap"
         >
           Join the Waitlist
         </button>
       </form>
-      <p className="text-sm text-slate-500">
+      <p className="text-xs sm:text-sm text-slate-500">
         Join {waitlistCount.toLocaleString('en-US')} others already signed up!
       </p>
     </>
