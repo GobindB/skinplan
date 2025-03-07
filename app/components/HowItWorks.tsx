@@ -25,7 +25,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
   };
 
   return (
-    <section className="py-8 sm:py-16 md:py-20 bg-gradient-to-b from-white via-slate-50/30 to-white relative overflow-hidden">
+    <section className="py-8 sm:py-16 md:py-20 bg-slate-50 relative overflow-hidden">
       {/* Organic background shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-32 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-teal-50/40 rounded-[70%] mix-blend-multiply filter blur-3xl opacity-70 animate-float"></div>
@@ -37,13 +37,13 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
           <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-teal-50 text-teal-600 text-xs sm:text-sm font-medium mb-4 transform hover:scale-105 transition-transform border border-teal-100/20">
             Join {waitlistCount.toLocaleString('en-US')} others already signed up!
           </span>
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent px-4">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent">
             Transform Your Skincare Routine
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-2xl mx-auto mb-2">
             Experience a personalized approach to achieving your best skin
           </p>
-          <p className="text-sm sm:text-base text-slate-600 mb-4 px-4">
+          <p className="text-sm sm:text-base text-slate-600 mb-4">
             Don&apos;t miss out on the future of skincare. Join thousands of others who are already on the waitlist.
           </p>
         </div>
@@ -128,8 +128,8 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
               </div>
               <div>
                 <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-slate-800 flex flex-wrap items-center gap-2">
-                  Analyze Your Skin
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100/20">
+                  <span className="mr-1">Analyze Your Skin</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100/20 whitespace-nowrap">
                     🔍 Smart AI
                   </span>
                 </h3>
@@ -146,8 +146,8 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
               </div>
               <div>
                 <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-slate-800 flex flex-wrap items-center gap-2">
-                  Follow Your Routine
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100/20">
+                  <span className="mr-1">Follow Your Routine</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100/20 whitespace-nowrap">
                     ⭐ Daily Care
                   </span>
                 </h3>
@@ -164,8 +164,8 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
               </div>
               <div>
                 <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-slate-800 flex flex-wrap items-center gap-2">
-                  Track Progress
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100/20">
+                  <span className="mr-1">Track Progress</span>
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100/20 whitespace-nowrap">
                     ✨ Results
                   </span>
                 </h3>
