@@ -33,12 +33,12 @@ export default function Page() {
         <main>
             <Navigation />
             <HeroSection isVisible={isVisible} waitlistCount={waitlistCount} />
-            <AppStoreSection />
             <HowItWorks />
+            <PricingSection />
+            <AppStoreSection />
             <ComparisonTable />
             <IsThisForYou />
             <ScienceSection />
-            <PricingSection />
             <CallToAction waitlistCount={waitlistCount} />
             <Footer />
         </main>

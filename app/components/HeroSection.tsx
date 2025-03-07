@@ -10,7 +10,7 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCount }) => {
   return (
     <section className="bg-slate-50">
-      <div className="max-w-6xl mx-auto px-4 md:px-8 pt-12 pb-20 md:pt-20 md:pb-28">
+      <div className="max-w-[1400px] w-full mx-auto px-8 pt-[72px] pb-20 md:pb-28">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-slate-800">

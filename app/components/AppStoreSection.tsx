@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const testimonials = [
   {
@@ -65,7 +66,7 @@ export const AppStoreSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((current) => (current + 1) % testimonials.length);
-    }, 5000); // Rotate every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -82,50 +83,80 @@ export const AppStoreSection = () => {
 
   return (
     <section className="py-16 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 md:px-8 text-center">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-64 h-64 bg-teal-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute top-0 right-1/4 w-64 h-64 bg-amber-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-rose-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 md:px-8 text-center relative">
         <div className="relative inline-block mb-12">
-          {/* Laurel Wreath SVG */}
+          {/* Laurel Wreath SVG with updated styling */}
           <svg
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] text-amber-200/30"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] text-amber-200/40"
             viewBox="0 0 100 100"
             fill="currentColor"
           >
             <path d="M50 5c-1.3 8-3.7 15.8-7 23.2-4.8-6.5-10.4-12.5-16.6-17.8 3.7 7.2 6.5 14.9 8.4 22.8-7.1-4-14.8-7.2-22.8-9.4 7.2 3.7 14.9 6.5 22.8 8.4-6.5 4.8-12.5 10.4-17.8 16.6 7.2-3.7 14.9-6.5 22.8-8.4-4 7.1-7.2 14.8-9.4 22.8 3.7-7.2 6.5-14.9 8.4-22.8 4.8 6.5 10.4 12.5 16.6 17.8-3.7-7.2-6.5-14.9-8.4-22.8 7.1 4 14.8 7.2 22.8 9.4-7.2-3.7-14.9-6.5-22.8-8.4 6.5-4.8 12.5-10.4 17.8-16.6-7.2 3.7-14.9 6.5-22.8 8.4 4-7.1 7.2-14.8 9.4-22.8-3.7 7.2-6.5 14.9-8.4 22.8z" />
           </svg>
-          <h2 className="text-3xl md:text-4xl font-light mb-4 relative">
-            Ready to Transform Your Skin? ✨
+          <span className="inline-block px-4 py-1 rounded-full bg-teal-50 text-teal-600 text-sm font-medium mb-4">
+            Coming Soon
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent">
+            Be First in Line ✨
           </h2>
         </div>
         
-        <p className="text-slate-600 max-w-2xl mx-auto mb-8">
-          Download our app to start your personalized skincare journey today
+        <p className="text-slate-600 max-w-2xl mx-auto mb-8 text-lg">
+          Join our exclusive beta waitlist and be among the first to experience the future of personalized skincare
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-          <a href="#waitlist-section" onClick={scrollToWaitlist} className="h-[54px] transition-opacity hover:opacity-90">
-            <img
-              src="/app-store-badge.svg"
-              alt="Download on the App Store"
-              className="h-full w-auto"
-            />
+          <a 
+            href="#waitlist-section" 
+            onClick={scrollToWaitlist} 
+            className="h-[54px] transition-all duration-300 hover:scale-105 hover:-rotate-1 relative group"
+          >
+            <div className="relative h-[54px] w-[180px]">
+              <Image
+                src="/app-store-badge.svg"
+                alt="Download on the App Store"
+                fill
+                className="object-contain filter brightness-90"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-black/40 to-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-white text-sm font-medium">Coming Soon</span>
+              </div>
+            </div>
           </a>
-          <a href="#waitlist-section" onClick={scrollToWaitlist} className="h-[54px] transition-opacity hover:opacity-90">
-            <img
-              src="/google-play-badge.svg"
-              alt="Get it on Google Play"
-              className="h-full w-auto"
-            />
+          <a 
+            href="#waitlist-section" 
+            onClick={scrollToWaitlist} 
+            className="h-[54px] transition-all duration-300 hover:scale-105 hover:rotate-1 relative group"
+          >
+            <div className="relative h-[54px] w-[180px]">
+              <Image
+                src="/google-play-badge.svg"
+                alt="Get it on Google Play"
+                fill
+                className="object-contain filter brightness-90"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-black/40 to-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-white text-sm font-medium">Coming Soon</span>
+              </div>
+            </div>
           </a>
         </div>
 
-        <h3 className="text-2xl font-light text-slate-800 mb-4">
-          See Why People Love Us 💖
+        <h3 className="text-2xl font-bold text-slate-800 mb-4 bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent">
+          Early Access Feedback 💖
         </h3>
-        <p className="text-slate-600 max-w-2xl mx-auto mb-12">
-          Join thousands of happy users who have transformed their skincare routine
+        <p className="text-slate-600 max-w-2xl mx-auto mb-12 text-lg">
+          Here's what our beta testers are saying
         </p>
 
-        {/* Testimonials Carousel */}
+        {/* Testimonials Carousel with updated styling */}
         <div className="relative overflow-hidden">
           <div 
             className="flex transition-transform duration-1000 ease-out"
@@ -136,13 +167,16 @@ export const AppStoreSection = () => {
                 key={index}
                 className="w-full md:w-1/3 flex-shrink-0 px-4"
               >
-                <div className="bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] h-full">
+                <div className="bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] h-full border border-slate-100">
                   <div className="flex items-center mb-4">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.author}
-                      className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
-                    />
+                    <div className="relative w-12 h-12">
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.author}
+                        fill
+                        className="rounded-full object-cover border-2 border-white shadow-md"
+                      />
+                    </div>
                     <div className="ml-4 text-left">
                       <p className="font-medium text-slate-900">{testimonial.author}</p>
                       <p className="text-sm text-slate-500">{testimonial.role}</p>
@@ -163,15 +197,15 @@ export const AppStoreSection = () => {
                       </svg>
                     ))}
                   </div>
-                  <blockquote className="text-slate-700 leading-relaxed">
-                    {testimonial.text}
+                  <blockquote className="text-slate-700 leading-relaxed italic">
+                    "{testimonial.text}"
                   </blockquote>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Navigation Dots */}
+          {/* Navigation Dots with updated styling */}
           <div className="flex justify-center gap-2 mt-8">
             {testimonials.map((_, index) => (
               <button
@@ -179,7 +213,7 @@ export const AppStoreSection = () => {
                 onClick={() => setActiveIndex(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === activeIndex 
-                    ? 'bg-teal-500 w-4' 
+                    ? 'bg-teal-500 w-6' 
                     : 'bg-slate-300 hover:bg-slate-400'
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
@@ -188,6 +222,24 @@ export const AppStoreSection = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes blob {
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </section>
   );
 }; 
