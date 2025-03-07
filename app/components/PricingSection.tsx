@@ -77,8 +77,8 @@ export const PricingSection = () => {
           </div>
 
           {/* Premium Plan */}
-          <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl p-8 shadow-xl text-white relative overflow-hidden">
-            <div className="absolute -top-3 left-4">
+          <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl p-8 shadow-xl text-white relative overflow-visible">
+            <div className="absolute -top-3 left-4 z-10">
               <span className="bg-gradient-to-r from-amber-100 to-amber-200 text-amber-800 text-xs font-semibold px-3 py-1 rounded-full shadow-sm border border-amber-300/50">
                 MOST POPULAR
               </span>
