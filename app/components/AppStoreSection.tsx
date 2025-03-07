@@ -71,7 +71,17 @@ export const AppStoreSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const visibleTestimonials = [...testimonials.slice(activeIndex), ...testimonials.slice(0, activeIndex)];
+  // Create a circular array view for seamless looping
+  const getVisibleTestimonials = () => {
+    const result = [];
+    for (let i = 0; i < 3; i++) {
+      const index = (activeIndex + i) % testimonials.length;
+      result.push(testimonials[index]);
+    }
+    return result;
+  };
+
+  const visibleTestimonials = getVisibleTestimonials();
 
   const scrollToWaitlist = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -116,14 +126,14 @@ export const AppStoreSection = () => {
           <a 
             href="#waitlist-section" 
             onClick={scrollToWaitlist} 
-            className="h-[54px] transition-all duration-300 hover:scale-105 hover:-rotate-1 relative group"
+            className="relative transition-all duration-300 hover:scale-105 hover:-rotate-1 group"
           >
             <div className="relative h-[54px] w-[180px]">
               <Image
                 src="/app-store-badge.svg"
                 alt="Download on the App Store"
                 fill
-                className="object-contain filter brightness-90"
+                className="object-contain filter brightness-90 rounded-lg"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-black/40 to-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-white text-sm font-medium">Coming Soon</span>
@@ -133,14 +143,14 @@ export const AppStoreSection = () => {
           <a 
             href="#waitlist-section" 
             onClick={scrollToWaitlist} 
-            className="h-[54px] transition-all duration-300 hover:scale-105 hover:rotate-1 relative group"
+            className="relative transition-all duration-300 hover:scale-105 hover:rotate-1 group"
           >
             <div className="relative h-[54px] w-[180px]">
               <Image
                 src="/google-play-badge.svg"
                 alt="Get it on Google Play"
                 fill
-                className="object-contain filter brightness-90"
+                className="object-contain filter brightness-90 rounded-lg"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-black/40 to-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-white text-sm font-medium">Coming Soon</span>
@@ -156,7 +166,7 @@ export const AppStoreSection = () => {
           Here's what our beta testers are saying
         </p>
 
-        {/* Testimonials Carousel with updated styling */}
+        {/* Testimonials Carousel */}
         <div className="relative overflow-hidden">
           <div 
             className="flex transition-transform duration-1000 ease-out"
@@ -164,7 +174,7 @@ export const AppStoreSection = () => {
           >
             {visibleTestimonials.map((testimonial, index) => (
               <div 
-                key={index}
+                key={`${testimonial.author}-${activeIndex}-${index}`}
                 className="w-full md:w-1/3 flex-shrink-0 px-4"
               >
                 <div className="bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] h-full border border-slate-100">
@@ -205,7 +215,7 @@ export const AppStoreSection = () => {
             ))}
           </div>
 
-          {/* Navigation Dots with updated styling */}
+          {/* Navigation Dots */}
           <div className="flex justify-center gap-2 mt-8">
             {testimonials.map((_, index) => (
               <button
