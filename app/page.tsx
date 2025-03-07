@@ -15,7 +15,7 @@ import { PricingSection } from './components/PricingSection';
 
 export default function Page() {
     const [isVisible, setIsVisible] = useState(false);
-    const [waitlistCount, setWaitlistCount] = useState(13184);
+    const [waitlistCount, setWaitlistCount] = useState(13192);
 
     useEffect(() => {
         setIsVisible(true);
@@ -32,7 +32,7 @@ export default function Page() {
         <main>
             <Navigation />
             <HeroSection isVisible={isVisible} waitlistCount={waitlistCount} />
-            <HowItWorks />
+            <HowItWorks waitlistCount={waitlistCount} />
             <AppStoreSection />
             <PricingSection />
             <IsThisForYou />
