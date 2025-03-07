@@ -153,7 +153,7 @@ export const AppStoreSection = () => {
           Early Access Feedback 💖
         </h3>
         <p className="text-slate-600 max-w-2xl mx-auto mb-12 text-lg">
-          Here's what our beta testers are saying
+          Here&apos;s what our beta testers are saying
         </p>
 
         {/* Testimonials Carousel with updated styling */}

@@ -134,7 +134,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
                   </span>
                 </h3>
                 <p className="text-sm md:text-base text-slate-600 leading-relaxed">
-                  See your transformation with smart photo comparisons and get data-driven insights about what's working.
+                  See your transformation with smart photo comparisons and get data-driven insights about what&apos;s working.
                 </p>
               </div>
             </div>
