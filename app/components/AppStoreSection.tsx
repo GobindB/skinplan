@@ -82,37 +82,36 @@ export const AppStoreSection = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
+    <section className="py-8 sm:py-16 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-teal-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute top-0 right-1/4 w-64 h-64 bg-amber-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-rose-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-0 left-1/4 w-32 sm:w-64 h-32 sm:h-64 bg-teal-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute top-0 right-1/4 w-32 sm:w-64 h-32 sm:h-64 bg-amber-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-0 left-1/3 w-32 sm:w-64 h-32 sm:h-64 bg-rose-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 md:px-8 text-center relative">
-        <div className="relative inline-block mb-12">
-          {/* Laurel Wreath SVG with updated styling */}
+        <div className="relative inline-block mb-8 sm:mb-12">
           <svg
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] text-amber-200/40"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] sm:w-[140%] h-[120%] sm:h-[140%] text-amber-200/40"
             viewBox="0 0 100 100"
             fill="currentColor"
           >
             <path d="M50 5c-1.3 8-3.7 15.8-7 23.2-4.8-6.5-10.4-12.5-16.6-17.8 3.7 7.2 6.5 14.9 8.4 22.8-7.1-4-14.8-7.2-22.8-9.4 7.2 3.7 14.9 6.5 22.8 8.4-6.5 4.8-12.5 10.4-17.8 16.6 7.2-3.7 14.9-6.5 22.8-8.4-4 7.1-7.2 14.8-9.4 22.8 3.7-7.2 6.5-14.9 8.4-22.8 4.8 6.5 10.4 12.5 16.6 17.8-3.7-7.2-6.5-14.9-8.4-22.8 7.1 4 14.8 7.2 22.8 9.4-7.2-3.7-14.9-6.5-22.8-8.4 6.5-4.8 12.5-10.4 17.8-16.6-7.2 3.7-14.9 6.5-22.8 8.4 4-7.1 7.2-14.8 9.4-22.8-3.7 7.2-6.5 14.9-8.4 22.8z" />
           </svg>
-          <span className="inline-block px-4 py-1 rounded-full bg-teal-50 text-teal-600 text-sm font-medium mb-4">
+          <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-teal-50 text-teal-600 text-xs sm:text-sm font-medium mb-4">
             Coming Soon
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent">
             Be First in Line ✨
           </h2>
         </div>
         
-        <p className="text-slate-600 max-w-2xl mx-auto mb-8 text-lg">
+        <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-6 sm:mb-8 px-4">
           Join our exclusive beta waitlist and be among the first to experience the future of personalized skincare
         </p>
         
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 sm:mb-20">
           <a 
             href="#waitlist-section" 
             onClick={scrollToWaitlist} 
@@ -149,10 +148,10 @@ export const AppStoreSection = () => {
           </a>
         </div>
 
-        <h3 className="text-2xl font-bold text-slate-800 mb-4 bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent">
+        <h3 className="text-xl sm:text-2xl font-bold text-slate-800 mb-3 sm:mb-4 bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent">
           Early Access Feedback 💖
         </h3>
-        <p className="text-slate-600 max-w-2xl mx-auto mb-12 text-lg">
+        <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-8 sm:mb-12">
           Here&apos;s what our beta testers are saying
         </p>
 
@@ -160,16 +159,16 @@ export const AppStoreSection = () => {
         <div className="relative overflow-hidden">
           <div 
             className="flex transition-transform duration-1000 ease-out"
-            style={{ transform: `translateX(-${activeIndex * (100 / 3)}%)` }}
+            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
             {visibleTestimonials.map((testimonial, index) => (
               <div 
                 key={index}
-                className="w-full md:w-1/3 flex-shrink-0 px-4"
+                className="w-full flex-shrink-0 px-4"
               >
-                <div className="bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] h-full border border-slate-100">
+                <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] h-full border border-slate-100">
                   <div className="flex items-center mb-4">
-                    <div className="relative w-12 h-12">
+                    <div className="relative w-10 sm:w-12 h-10 sm:h-12">
                       <Image
                         src={testimonial.image}
                         alt={testimonial.author}
@@ -177,14 +176,14 @@ export const AppStoreSection = () => {
                         className="rounded-full object-cover border-2 border-white shadow-md"
                       />
                     </div>
-                    <div className="ml-4 text-left flex-1">
+                    <div className="ml-3 sm:ml-4 text-left flex-1">
                       <div className="flex items-center justify-between">
-                        <p className="font-medium text-slate-900">{testimonial.author}</p>
+                        <p className="font-medium text-slate-900 text-sm sm:text-base">{testimonial.author}</p>
                         <div className="flex items-center">
                           {[...Array(testimonial.rating)].map((_, i) => (
                             <svg
                               key={i}
-                              className="w-4 h-4 text-amber-400"
+                              className="w-3 h-3 sm:w-4 sm:h-4 text-amber-400"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -193,13 +192,13 @@ export const AppStoreSection = () => {
                           ))}
                         </div>
                       </div>
-                      <p className="text-sm text-slate-500">{testimonial.role}</p>
+                      <p className="text-xs sm:text-sm text-slate-500">{testimonial.role}</p>
                     </div>
                   </div>
-                  <div className="inline-block px-3 py-1 rounded-full bg-teal-50 text-teal-600 text-xs font-medium mb-4">
+                  <div className="inline-block px-2 sm:px-3 py-1 rounded-full bg-teal-50 text-teal-600 text-xs font-medium mb-3 sm:mb-4">
                     {testimonial.tag}
                   </div>
-                  <blockquote className="text-slate-700 leading-relaxed italic">
+                  <blockquote className="text-sm sm:text-base text-slate-700 leading-relaxed italic">
                     &ldquo;{testimonial.text}&rdquo;
                   </blockquote>
                 </div>
@@ -208,14 +207,14 @@ export const AppStoreSection = () => {
           </div>
 
           {/* Navigation Dots with updated styling */}
-          <div className="flex justify-center gap-2 mt-8">
+          <div className="flex justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-8">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                className={`w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full transition-all duration-300 ${
                   index === activeIndex 
-                    ? 'bg-teal-500 w-6' 
+                    ? 'bg-teal-500 w-4 sm:w-6' 
                     : 'bg-slate-300 hover:bg-slate-400'
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
