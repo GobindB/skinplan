@@ -11,6 +11,8 @@ import { HowItWorks } from './components/HowItWorks';
 import { ComparisonTable } from './components/ComparisonTable';
 import { IsThisForYou } from './components/IsThisForYou';
 import { ScienceSection } from './components/ScienceSection';
+import { AppStoreSection } from './components/AppStoreSection';
+import { PricingSection } from './components/PricingSection';
 
 export default function Page() {
     const [isVisible, setIsVisible] = useState(false);
@@ -26,15 +28,17 @@ export default function Page() {
 
         return () => clearInterval(interval);
     }, []);
-
+    
     return (
         <main>
             <Navigation />
             <HeroSection isVisible={isVisible} waitlistCount={waitlistCount} />
+            <AppStoreSection />
             <HowItWorks />
             <ComparisonTable />
             <IsThisForYou />
             <ScienceSection />
+            <PricingSection />
             <CallToAction waitlistCount={waitlistCount} />
             <Footer />
         </main>

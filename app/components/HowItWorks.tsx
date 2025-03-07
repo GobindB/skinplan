@@ -15,7 +15,7 @@ export const HowItWorks = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3">Set Your Goal</h3>
             <p className="text-slate-600">
-              Choose your skincare focus—whether it's clearer skin, hydration, or anti-aging.
+              Choose your skincare focus—whether it&apos;s clearer skin, hydration, or anti-aging.
             </p>
           </div>
 

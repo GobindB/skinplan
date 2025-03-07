@@ -7,12 +7,12 @@ export const ScienceSection = () => {
         <h2 className="text-3xl md:text-4xl font-light text-center mb-6">
           Powered by Science, Not Hype
         </h2>
-        <p className="text-center text-slate-600 max-w-2xl mx-auto mb-16">
+        <p className="text-center text-slate-600 max-w-2xl mx-auto mb-8">
           Our platform uses dermatologist-backed research to generate effective
           skincare routines.
         </p>
-
-        <div className="grid md:grid-cols-2 gap-10 items-center">
+        
+        <div className="grid md:grid-cols-2 gap-10 items-center mt-16">
           <div>
             <div className="mb-8">
               <h3 className="text-xl font-medium mb-3 flex items-center">
