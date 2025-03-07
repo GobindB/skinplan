@@ -62,6 +62,7 @@ const testimonials = [
 
 export const AppStoreSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -158,8 +159,37 @@ export const AppStoreSection = () => {
         {/* Testimonials Carousel with updated styling */}
         <div className="relative overflow-hidden">
           <div 
-            className="flex transition-transform duration-1000 ease-out"
+            className="flex transition-transform duration-1000 ease-out max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+            onTouchStart={(e) => {
+              const touch = e.touches[0];
+              setTouchStart(touch.clientX);
+            }}
+            onTouchMove={(e) => {
+              if (touchStart === null) return;
+              const touch = e.touches[0];
+              const diff = touchStart - touch.clientX;
+              
+              // Only prevent default if significant movement
+              if (Math.abs(diff) > 5) {
+                e.preventDefault();
+              }
+            }}
+            onTouchEnd={(e) => {
+              if (touchStart === null) return;
+              const touch = e.changedTouches[0];
+              const diff = touchStart - touch.clientX;
+              
+              // Threshold for swipe - 50px
+              if (Math.abs(diff) > 50) {
+                if (diff > 0 && activeIndex < testimonials.length - 1) {
+                  setActiveIndex(activeIndex + 1);
+                } else if (diff < 0 && activeIndex > 0) {
+                  setActiveIndex(activeIndex - 1);
+                }
+              }
+              setTouchStart(null);
+            }}
           >
             {visibleTestimonials.map((testimonial, index) => (
               <div 

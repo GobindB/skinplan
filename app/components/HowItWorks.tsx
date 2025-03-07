@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface HowItWorksProps {
   waitlistCount: number;
@@ -10,20 +10,34 @@ const formatNumber = (num: number): string => {
 };
 
 export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = 3; // Number of slides/screens in the demo
+
+  const handleSwipe = (diff: number) => {
+    if (Math.abs(diff) > 50) { // 50px threshold for swipe
+      if (diff > 0 && currentSlide < totalSlides - 1) {
+        setCurrentSlide(currentSlide + 1);
+      } else if (diff < 0 && currentSlide > 0) {
+        setCurrentSlide(currentSlide - 1);
+      }
+    }
+  };
+
   return (
     <section className="py-8 sm:py-16 md:py-20 bg-gradient-to-b from-white via-slate-50/30 to-white relative overflow-hidden">
       {/* Organic background shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-sky-50/40 rounded-[70%] mix-blend-multiply filter blur-3xl opacity-70 animate-float"></div>
-        <div className="absolute top-32 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-emerald-50/40 rounded-[60%] mix-blend-multiply filter blur-3xl opacity-70 animate-float animation-delay-2000"></div>
+        <div className="absolute -top-32 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-teal-50/40 rounded-[70%] mix-blend-multiply filter blur-3xl opacity-70 animate-float"></div>
+        <div className="absolute top-32 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-teal-50/40 rounded-[60%] mix-blend-multiply filter blur-3xl opacity-70 animate-float animation-delay-2000"></div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         <div className="text-center mb-8 sm:mb-12 md:mb-20">
-          <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-gradient-to-r from-teal-50 to-emerald-50 text-teal-600 text-xs sm:text-sm font-medium mb-4 transform hover:scale-105 transition-transform border border-teal-100/20">
+          <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-teal-50 text-teal-600 text-xs sm:text-sm font-medium mb-4 transform hover:scale-105 transition-transform border border-teal-100/20">
             Join {waitlistCount.toLocaleString('en-US')} others already signed up!
           </span>
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent px-4">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-teal-600 to-teal-500 bg-clip-text text-transparent px-4">
             Transform Your Skincare Routine
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
@@ -59,14 +73,36 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
                 </div>
                 
                 {/* Main Content Area */}
-                <div className="aspect-[9/19.5]">
+                <div className="aspect-[9/19.5]"
+                  onTouchStart={(e) => {
+                    const touch = e.touches[0];
+                    setTouchStart(touch.clientX);
+                  }}
+                  onTouchMove={(e) => {
+                    if (touchStart === null) return;
+                    const touch = e.touches[0];
+                    const diff = touchStart - touch.clientX;
+                    
+                    if (Math.abs(diff) > 5) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onTouchEnd={(e) => {
+                    if (touchStart === null) return;
+                    const touch = e.changedTouches[0];
+                    const diff = touchStart - touch.clientX;
+                    handleSwipe(diff);
+                    setTouchStart(null);
+                  }}
+                >
                   <video
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 ease-out"
                     autoPlay
                     loop
                     muted
                     playsInline
                     poster="/images/video-poster.jpg"
+                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                   >
                     <source src="/demo.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
@@ -80,18 +116,18 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
 
             {/* Decorative Elements */}
             <div className="absolute -top-4 sm:-top-8 -left-4 sm:-left-8 w-16 sm:w-32 h-16 sm:h-32 bg-teal-100/30 rounded-full blur-2xl"></div>
-            <div className="absolute -bottom-4 sm:-bottom-8 -right-4 sm:-right-8 w-16 sm:w-32 h-16 sm:h-32 bg-emerald-100/30 rounded-full blur-2xl"></div>
+            <div className="absolute -bottom-4 sm:-bottom-8 -right-4 sm:-right-8 w-16 sm:w-32 h-16 sm:h-32 bg-teal-100/30 rounded-full blur-2xl"></div>
           </div>
 
           {/* Steps */}
           <div className="space-y-6 sm:space-y-8 md:space-y-12 order-2 lg:order-none">
             {/* Step 1 */}
             <div className="group relative pl-12 sm:pl-14 md:pl-16">
-              <div className="absolute left-0 top-0 w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10 bg-gradient-to-br from-teal-500 to-emerald-500 text-white rounded-lg sm:rounded-xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+              <div className="absolute left-0 top-0 w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg sm:rounded-xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                 <span className="text-sm sm:text-base md:text-lg font-bold">1</span>
               </div>
               <div>
-                <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-teal-800 flex flex-wrap items-center gap-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-slate-800 flex flex-wrap items-center gap-2">
                   Analyze Your Skin
                   <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100/20">
                     🔍 Smart AI
@@ -105,13 +141,13 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
 
             {/* Step 2 */}
             <div className="group relative pl-12 sm:pl-14 md:pl-16">
-              <div className="absolute left-0 top-0 w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-lg sm:rounded-xl flex items-center justify-center transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300 shadow-lg">
+              <div className="absolute left-0 top-0 w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg sm:rounded-xl flex items-center justify-center transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300 shadow-lg">
                 <span className="text-sm sm:text-base md:text-lg font-bold">2</span>
               </div>
               <div>
-                <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-emerald-800 flex flex-wrap items-center gap-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-slate-800 flex flex-wrap items-center gap-2">
                   Follow Your Routine
-                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-emerald-50 text-emerald-600 border border-emerald-100/20">
+                  <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100/20">
                     ⭐ Daily Care
                   </span>
                 </h3>
@@ -123,11 +159,11 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
 
             {/* Step 3 */}
             <div className="group relative pl-12 sm:pl-14 md:pl-16">
-              <div className="absolute left-0 top-0 w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10 bg-gradient-to-br from-teal-500 to-emerald-500 text-white rounded-lg sm:rounded-xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+              <div className="absolute left-0 top-0 w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg sm:rounded-xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
                 <span className="text-sm sm:text-base md:text-lg font-bold">3</span>
               </div>
               <div>
-                <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-teal-800 flex flex-wrap items-center gap-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-2 text-slate-800 flex flex-wrap items-center gap-2">
                   Track Progress
                   <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100/20">
                     ✨ Results
@@ -138,17 +174,17 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
                 </p>
               </div>
             </div>
-
-            {/* CTA Button */}
-            <div className="pl-12 sm:pl-14 md:pl-16">
-              <button className="inline-flex items-center px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white text-xs sm:text-sm md:text-base font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
-                Get Started Free
-                <svg className="ml-2 w-3 sm:w-4 md:w-5 h-3 sm:h-4 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </button>
-            </div>
           </div>
+        </div>
+
+        {/* CTA Button - Moved outside the grid and centered */}
+        <div className="flex justify-center mt-8 sm:mt-12 md:mt-16">
+          <button className="inline-flex items-center px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl bg-gradient-to-r from-teal-500 to-teal-600 text-white text-xs sm:text-sm md:text-base font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
+            Get Started Free
+            <svg className="ml-2 w-3 sm:w-4 md:w-5 h-3 sm:h-4 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </button>
         </div>
       </div>
 
