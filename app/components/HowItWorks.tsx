@@ -1,6 +1,14 @@
 import React from 'react';
 
+// Utility function to format numbers with commas
+const formatNumber = (num: number): string => {
+  return num.toLocaleString('en-US');
+};
+
 export const HowItWorks = () => {
+  // Example number of users - replace with actual dynamic value from your data source
+  const userCount = 13155;
+
   return (
     <section className="py-20 bg-gradient-to-b from-white via-slate-50/30 to-white relative overflow-hidden">
       {/* Organic background shapes */}
@@ -12,35 +20,36 @@ export const HowItWorks = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1 rounded-full bg-gradient-to-r from-teal-50 to-emerald-50 text-teal-600 text-sm font-medium mb-4 transform hover:scale-105 transition-transform border border-teal-100/20">
-            How It Works
+            Join {formatNumber(userCount)} others already signed up!
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
             Transform Your Skincare Routine
           </h2>
           <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-            Experience a personalized, science-backed approach to achieving your best skin
+            Experience a personalized approach to achieving your best skin
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* iPhone Demo Video */}
-          <div className="relative order-2 lg:order-1">
-            <div className="relative mx-auto w-[300px] h-[600px] rounded-[3rem] border-[14px] border-slate-900 overflow-hidden shadow-xl">
-              {/* iPhone Notch */}
-              <div className="absolute top-0 inset-x-0 h-6 bg-slate-900 rounded-b-xl">
-                <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-20 h-4 bg-slate-900 rounded-full"></div>
-              </div>
-              {/* Video Container */}
-              <div className="absolute inset-0 bg-white overflow-hidden">
-                <video 
-                  className="w-full h-full object-cover"
-                  autoPlay 
-                  loop 
-                  muted 
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          {/* iPhone Frame with Video */}
+          <div className="relative w-[320px] mx-auto lg:ml-8 lg:mr-auto sticky top-24">
+            {/* iPhone frame */}
+            <div className="relative rounded-[2.5rem] bg-slate-900 p-3 shadow-xl transform hover:scale-[1.02] transition-transform duration-300">
+              {/* iPhone notch */}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 h-6 w-32 bg-slate-900 rounded-b-3xl z-20"></div>
+              
+              {/* Screen content */}
+              <div className="relative rounded-[2rem] overflow-hidden bg-slate-800 aspect-[9/19.5]">
+                <video
+                  className="absolute inset-0 w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
                   playsInline
-                  poster="/demo-poster.jpg"
+                  poster="/images/video-poster.jpg"
                 >
                   <source src="/demo.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
                 </video>
               </div>
             </div>
@@ -50,7 +59,7 @@ export const HowItWorks = () => {
           </div>
 
           {/* Steps */}
-          <div className="order-1 lg:order-2 space-y-8">
+          <div className="space-y-8 lg:pl-12">
             <div className="relative">
               {/* Steps Container */}
               <div className="space-y-12">

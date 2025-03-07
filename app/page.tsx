@@ -10,13 +10,12 @@ import { CallToAction } from './components/CallToAction';
 import { HowItWorks } from './components/HowItWorks';
 import { ComparisonTable } from './components/ComparisonTable';
 import { IsThisForYou } from './components/IsThisForYou';
-import { ScienceSection } from './components/ScienceSection';
 import { AppStoreSection } from './components/AppStoreSection';
 import { PricingSection } from './components/PricingSection';
 
 export default function Page() {
     const [isVisible, setIsVisible] = useState(false);
-    const [waitlistCount, setWaitlistCount] = useState(13127);
+    const [waitlistCount, setWaitlistCount] = useState(13184);
 
     useEffect(() => {
         setIsVisible(true);
@@ -34,11 +33,10 @@ export default function Page() {
             <Navigation />
             <HeroSection isVisible={isVisible} waitlistCount={waitlistCount} />
             <HowItWorks />
-            <PricingSection />
             <AppStoreSection />
-            <ComparisonTable />
+            <PricingSection />
             <IsThisForYou />
-            <ScienceSection />
+            <ComparisonTable />
             <CallToAction waitlistCount={waitlistCount} />
             <Footer />
         </main>

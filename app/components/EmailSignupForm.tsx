@@ -50,7 +50,7 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount 
         </button>
       </form>
       <p className="text-sm text-slate-500">
-        Join {waitlistCount} others already signed up!
+        Join {waitlistCount.toLocaleString('en-US')} others already signed up!
       </p>
     </>
   );

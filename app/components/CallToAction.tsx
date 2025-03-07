@@ -98,7 +98,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount }) => 
           </form>
 
           <p className="text-sm text-slate-500 mt-4">
-            Join {waitlistCount} others already signed up!
+            Join {waitlistCount.toLocaleString('en-US')} others already signed up!
           </p>
 
           <div className="flex justify-center gap-4 mt-6">
