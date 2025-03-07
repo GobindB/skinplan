@@ -9,10 +9,10 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCount }) => {
   return (
-    <section className="bg-slate-50">
-      <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-6 md:px-8 pt-20 md:pt-24">
+    <section className="bg-white pt-20 md:pt-24 pb-20 md:pb-24">
+      <div className="max-w-[1400px] w-full mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`transition-all duration-700 pl-0 md:pl-0 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-3 sm:mb-4 text-slate-800">
               <span className="block mb-1">Your Personalized Skincare Plan.</span>
               <span className="text-teal-600">
@@ -27,7 +27,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
             <EmailSignupForm waitlistCount={waitlistCount} />
           </div>
 
-          <div className={`transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`transition-all duration-700 delay-300 px-4 sm:px-6 md:px-8 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <SkinCareCalendar />
           </div>
         </div>

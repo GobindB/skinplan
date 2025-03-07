@@ -25,7 +25,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
   };
 
   return (
-    <section className="py-8 sm:py-16 md:py-20 bg-slate-50 relative overflow-hidden">
+    <section className="bg-slate-50 py-20 md:py-24">
       {/* Organic background shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-32 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-teal-50/40 rounded-[70%] mix-blend-multiply filter blur-3xl opacity-70 animate-float"></div>
