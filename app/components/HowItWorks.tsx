@@ -33,7 +33,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 md:px-8">
-        <div className="text-center mb-8 sm:mb-12 md:mb-20">
+        <div className="text-center mb-16 sm:mb-20 md:mb-24">
           <span className="inline-block px-3 sm:px-4 py-1 rounded-full bg-teal-50 text-teal-600 text-xs sm:text-sm font-medium mb-4 transform hover:scale-105 transition-transform border border-teal-100/20">
             Join {waitlistCount.toLocaleString('en-US')} others already signed up!
           </span>

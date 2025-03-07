@@ -76,7 +76,7 @@ export const SkinCareCalendar = () => {
 
   return (
     <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
-      <div className="bg-slate-800 text-white p-4 flex items-center justify-between">
+      <div className="bg-slate-800 text-white p-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -95,8 +95,8 @@ export const SkinCareCalendar = () => {
         <button className="text-sm text-teal-300">Save</button>
       </div>
 
-      <div className="p-4 bg-slate-900 text-white">
-        <div className="flex justify-between items-center mb-4">
+      <div className="p-3 bg-slate-900 text-white">
+        <div className="flex justify-between items-center mb-3">
           <div className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm inline-flex items-center">
             <span>Hydration boost</span>
             <span className="ml-2 bg-white text-teal-600 px-1.5 py-0.5 rounded-full text-xs font-medium">
