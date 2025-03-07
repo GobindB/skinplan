@@ -29,6 +29,9 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
           <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
             Experience a personalized approach to achieving your best skin
           </p>
+          <p className="text-slate-600 mb-4">
+            Don&apos;t miss out on the future of skincare. Join thousands of others who are already on the waitlist.
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center max-w-5xl mx-auto">

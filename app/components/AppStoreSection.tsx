@@ -71,17 +71,7 @@ export const AppStoreSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Create a circular array view for seamless looping
-  const getVisibleTestimonials = () => {
-    const result = [];
-    for (let i = 0; i < 3; i++) {
-      const index = (activeIndex + i) % testimonials.length;
-      result.push(testimonials[index]);
-    }
-    return result;
-  };
-
-  const visibleTestimonials = getVisibleTestimonials();
+  const visibleTestimonials = [...testimonials.slice(activeIndex), ...testimonials.slice(0, activeIndex)];
 
   const scrollToWaitlist = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -166,7 +156,7 @@ export const AppStoreSection = () => {
           Here's what our beta testers are saying
         </p>
 
-        {/* Testimonials Carousel */}
+        {/* Testimonials Carousel with updated styling */}
         <div className="relative overflow-hidden">
           <div 
             className="flex transition-transform duration-1000 ease-out"
@@ -174,7 +164,7 @@ export const AppStoreSection = () => {
           >
             {visibleTestimonials.map((testimonial, index) => (
               <div 
-                key={`${testimonial.author}-${activeIndex}-${index}`}
+                key={index}
                 className="w-full md:w-1/3 flex-shrink-0 px-4"
               >
                 <div className="bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] h-full border border-slate-100">
@@ -187,35 +177,37 @@ export const AppStoreSection = () => {
                         className="rounded-full object-cover border-2 border-white shadow-md"
                       />
                     </div>
-                    <div className="ml-4 text-left">
-                      <p className="font-medium text-slate-900">{testimonial.author}</p>
+                    <div className="ml-4 text-left flex-1">
+                      <div className="flex items-center justify-between">
+                        <p className="font-medium text-slate-900">{testimonial.author}</p>
+                        <div className="flex items-center">
+                          {[...Array(testimonial.rating)].map((_, i) => (
+                            <svg
+                              key={i}
+                              className="w-4 h-4 text-amber-400"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ))}
+                        </div>
+                      </div>
                       <p className="text-sm text-slate-500">{testimonial.role}</p>
                     </div>
                   </div>
                   <div className="inline-block px-3 py-1 rounded-full bg-teal-50 text-teal-600 text-xs font-medium mb-4">
                     {testimonial.tag}
                   </div>
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="w-4 h-4 text-amber-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
                   <blockquote className="text-slate-700 leading-relaxed italic">
-                    "{testimonial.text}"
+                    &ldquo;{testimonial.text}&rdquo;
                   </blockquote>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Navigation Dots */}
+          {/* Navigation Dots with updated styling */}
           <div className="flex justify-center gap-2 mt-8">
             {testimonials.map((_, index) => (
               <button
