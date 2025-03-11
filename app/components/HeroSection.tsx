@@ -20,7 +20,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
       <div className="relative max-w-[1400px] mx-auto px-4 lg:px-6 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column */}
-          <div className="relative z-10 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
+          <div className="relative z-10 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left pt-20 sm:pt-24">
             {/* Beta Tag */}
             <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mb-6">
               <div className="flex items-center gap-2">
