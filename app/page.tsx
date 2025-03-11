@@ -14,9 +14,11 @@ import { PricingSection } from './components/PricingSection';
 export default function Page() {
     const [isVisible, setIsVisible] = useState(false);
     const [waitlistCount, setWaitlistCount] = useState(13192);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setIsVisible(true);
+        setIsLoading(false);
 
         // Simulate waitlist count increasing occasionally
         const interval = setInterval(() => {
@@ -26,8 +28,16 @@ export default function Page() {
         return () => clearInterval(interval);
     }, []);
     
+    if (isLoading) {
+        return (
+            <div className="fixed inset-0 bg-[#0A0A0E] flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-[#FF3BFF] animate-ping" />
+            </div>
+        );
+    }
+
     return (
-        <main>
+        <main className="bg-[#0A0A0E]">
             <Navigation />
             <HeroSection isVisible={isVisible} waitlistCount={waitlistCount} />
             <AppStoreSection />

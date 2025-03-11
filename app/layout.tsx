@@ -19,8 +19,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <html lang="en" data-oid="5p53:aw">
-            <body className={inter.className} data-oid="bf3bkif" overflow-x-hidden>
+        <html lang="en" className="bg-[#0A0A0E] text-white">
+            <body className={`${inter.className} min-h-screen bg-[#0A0A0E]`}>
                 {children}
                 <Analytics />
             </body>

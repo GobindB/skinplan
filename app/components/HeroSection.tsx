@@ -10,7 +10,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCount }) => {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center bg-[#0A0A0E] text-white overflow-hidden py-12 lg:py-16">
+    <section className="relative min-h-screen flex items-center justify-center bg-[#0A0A0E] text-white overflow-hidden py-20 lg:py-0">
       {/* Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] opacity-[0.15] blur-[120px]" />
@@ -20,19 +20,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
       <div className="relative max-w-[1400px] mx-auto px-4 lg:px-6 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column */}
-          <div className="relative z-10 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left pt-20 sm:pt-24">
-            {/* Beta Tag */}
-            <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mb-6">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#FF3BFF] animate-pulse" />
-                <span className="text-xs font-medium tracking-wide text-white/80">
-                  Early Access Beta
-                </span>
-              </div>
+          <div className="relative z-10 flex flex-col items-center text-center pt-16 lg:pt-0">
+            {/* Early Access Beta Badge */}
+            <div className="mb-8">
+              <span className="px-3 py-1 text-xs font-medium text-[#FF3BFF] bg-[#FF3BFF]/10 rounded-full">
+                Early Access Beta
+              </span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 max-w-xl">
               <span className="block mb-2 text-transparent bg-clip-text bg-gradient-to-r from-[#FF3BFF] via-[#D94DFF] to-[#5C24FF]">
                 Unlock Your Skin's
               </span>
@@ -42,12 +39,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg lg:text-xl text-white/60 mb-8 max-w-xl mx-auto lg:mx-0">
+            <p className="text-lg lg:text-xl text-white/60 mb-8 max-w-xl">
               Experience personalized skincare that adapts to you.
             </p>
 
             {/* Email Signup Form */}
-            <div className="mb-6">
+            <div className="mb-6 w-full max-w-md">
               <EmailSignupForm waitlistCount={waitlistCount} />
             </div>
 

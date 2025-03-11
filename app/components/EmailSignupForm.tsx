@@ -32,29 +32,26 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount 
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 mb-4 sm:mb-6">
+    <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-stretch gap-2 w-full">
         <input
           type="email"
           placeholder="Enter your email for early access"
-          className="px-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-white/40 flex-grow focus:outline-none focus:ring-2 focus:ring-[#FF3BFF]/50 text-sm sm:text-base"
+          className="flex-1 min-w-[300px] px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:border-[#FF3BFF]/50"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <button
           type="submit"
-          className="group relative px-6 py-3 bg-white text-[#0A0A0E] rounded-lg font-medium hover:scale-[1.02] transition-all duration-200 active:scale-[0.98] text-sm sm:text-base whitespace-nowrap"
+          className="px-6 py-2.5 bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] rounded-lg text-white font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
         >
           Join the Waitlist
-          <div className="absolute inset-x-0 h-full -bottom-px rounded-lg bg-gradient-to-r from-[#FF3BFF] via-[#D94DFF] to-[#5C24FF] blur-md -z-10 opacity-75 group-hover:opacity-100 transition-opacity" />
         </button>
-      </form>
-      <div className="flex items-center gap-2 text-white/40">
-        <span className="text-xs sm:text-sm">Join</span>
-        <span className="font-semibold text-white">{waitlistCount.toLocaleString('en-US')}</span>
-        <span className="text-xs sm:text-sm">others already signed up!</span>
       </div>
-    </>
+      <p className="text-sm text-white/40">
+        Join <span className="text-white font-medium">{waitlistCount.toLocaleString()}</span> others already signed up!
+      </p>
+    </div>
   );
 }; 

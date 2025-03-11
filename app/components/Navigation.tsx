@@ -1,78 +1,94 @@
-import React, { useState, useEffect } from 'react';
+'use client';
 
-export const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+import { useState } from 'react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { motion, AnimatePresence } from 'framer-motion';
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+export function Navigation() {
+  const [isOpen, setIsOpen] = useState(false);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offset = 80; // Account for fixed header
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
+  const navigationItems = [
+    { name: 'Features', href: '#features' },
+    { name: 'How it Works', href: '#how-it-works' },
+    { name: 'Pricing', href: '#pricing' },
+    { name: 'About', href: '#about' },
+  ];
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-[#0A0A0E]/95 backdrop-blur-md' : 'bg-transparent'
-    }`}>
-      <div className="w-full px-6">
-        <nav className="h-20 flex items-center justify-between">
-          {/* Left Side */}
-          <div className="flex items-center gap-12">
-            {/* Logo */}
-            <a href="#" className="flex items-center gap-3 group">
-              <div className="w-9 h-9 rounded-lg bg-[#1A1A1E] border border-white/10 flex items-center justify-center transition-colors group-hover:bg-[#242428]">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              </div>
-              <span className="text-lg font-semibold text-white">SkinPlan</span>
-            </a>
-
-            {/* Navigation Links */}
-            <div className="hidden md:flex items-center gap-8">
-              <button onClick={() => scrollToSection('features')} className="text-sm text-white/60 hover:text-white transition-colors">
-                Features
-              </button>
-              <button onClick={() => scrollToSection('how-it-works')} className="text-sm text-white/60 hover:text-white transition-colors">
-                How it Works
-              </button>
-              <button onClick={() => scrollToSection('pricing')} className="text-sm text-white/60 hover:text-white transition-colors">
-                Pricing
-              </button>
-            </div>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0E]/80 backdrop-blur-md border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <span className="text-xl font-bold bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-transparent bg-clip-text">
+              SkinPlan
+            </span>
           </div>
 
-          {/* Right Side */}
-          <div className="flex items-center gap-4">
-            <button className="px-4 py-2 text-sm font-medium text-white bg-[#1A1A1E] hover:bg-[#242428] rounded-lg border border-white/10 transition-colors">
-              Join Waitlist
-            </button>
-
-            {/* Mobile Menu Button */}
-            <button className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-[#1A1A1E] border border-white/10">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex md:items-center md:space-x-8">
+            {navigationItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-sm text-white/60 hover:text-white transition-colors"
+              >
+                {item.name}
+              </a>
+            ))}
+            <button className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] rounded-lg hover:opacity-90 transition-opacity">
+              Get Started
             </button>
           </div>
-        </nav>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              {isOpen ? (
+                <XMarkIcon className="h-6 w-6" />
+              ) : (
+                <Bars3Icon className="h-6 w-6" />
+              )}
+            </button>
+          </div>
+        </div>
       </div>
-    </header>
+
+      {/* Mobile Navigation Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t border-white/10"
+          >
+            <div className="px-4 pt-2 pb-3 space-y-1 bg-[#0A0A0E]">
+              {navigationItems.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="block px-3 py-2 text-base text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                >
+                  {item.name}
+                </a>
+              ))}
+              <div className="pt-2">
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="w-full px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  Get Started
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
-}; 
+} 

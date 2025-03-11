@@ -3,9 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 10, 14;
+  --background-end-rgb: 10, 10, 14;
+}
+
+html {
+  background: #0A0A0E;
+  color: rgb(var(--foreground-rgb));
+}
+
+body {
+  background: #0A0A0E;
+  color: rgb(var(--foreground-rgb));
+  min-height: 100vh;
 }
 
 @media (prefers-color-scheme: dark) {

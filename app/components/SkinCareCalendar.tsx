@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronRightIcon, 
@@ -22,6 +22,8 @@ import {
   MoonIcon,
   CheckIcon
 } from '@heroicons/react/24/outline';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
 interface Product {
   name: string;
@@ -122,7 +124,18 @@ interface CalendarDayProps {
   onClick: () => void;
 }
 
-const CalendarDay: React.FC<CalendarDayProps> = ({ date, routines, isSelected, onClick }) => {
+// Dynamically import heavy components
+const CreatePlanView = dynamic(() => import('./CreatePlanView'), {
+  ssr: false,
+  loading: () => (
+    <div className="fixed inset-0 bg-[#0A0A0E] z-50 flex items-center justify-center">
+      <div className="w-2 h-2 rounded-full bg-[#FF3BFF] animate-ping" />
+    </div>
+  )
+});
+
+// Memoize child components
+const CalendarDay = memo<CalendarDayProps>(({ date, routines, isSelected, onClick }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -174,7 +187,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({ date, routines, isSelected, o
       </AnimatePresence>
     </motion.div>
   );
-};
+});
 
 // Demo data to showcase the functionality
 const demoInsights: InsightCard[] = [
@@ -538,7 +551,8 @@ const InsightIcon: React.FC<{ type: InsightCard['type'] }> = ({ type }) => {
   }
 };
 
-const RoutineStep: React.FC<{ step: RoutineStep }> = ({ step }) => {
+// Memoize RoutineStep component
+const RoutineStep = memo<{ step: RoutineStep }>(({ step }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
@@ -586,7 +600,7 @@ const RoutineStep: React.FC<{ step: RoutineStep }> = ({ step }) => {
                   {ingredient}
                 </span>
               ))}
-            </div>
+      </div>
 
             {step.product.warnings.length > 0 && (
               <div className="p-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 mb-1.5">
@@ -614,7 +628,7 @@ const RoutineStep: React.FC<{ step: RoutineStep }> = ({ step }) => {
       </AnimatePresence>
     </motion.div>
   );
-};
+});
 
 interface CalendarDay {
   date: Date;
@@ -624,508 +638,25 @@ interface CalendarDay {
   isToday?: boolean;
 }
 
-const CreatePlanView: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [step, setStep] = useState(1);
-  const [email, setEmail] = useState('');
-  const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
-  const [skinType, setSkinType] = useState<string>('');
-  const [sensitivities, setSensitivities] = useState<string[]>([]);
-  const [currentProducts, setCurrentProducts] = useState<string[]>([]);
-  const [ethnicity, setEthnicity] = useState<string>('');
-  
-  const ethnicityOptions = [
-    { label: 'Asian', description: 'East Asian, South Asian, Southeast Asian' },
-    { label: 'Black', description: 'African, African American, Caribbean' },
-    { label: 'Hispanic/Latino', description: 'Latin American, Spanish' },
-    { label: 'Middle Eastern', description: 'Arab, Persian, Turkish' },
-    { label: 'White', description: 'European, Caucasian' },
-    { label: 'Mixed/Other', description: 'Multiple ethnicities or other background' }
-  ];
-
-  const concerns = [
-    { icon: '✨', label: 'Brightening', description: 'Uneven tone, dark spots, dullness' },
-    { icon: '💧', label: 'Hydration', description: 'Dryness, tightness, dehydration' },
-    { icon: '🛡️', label: 'Barrier Repair', description: 'Sensitivity, redness, irritation' },
-    { icon: '⏰', label: 'Anti-Aging', description: 'Fine lines, loss of firmness' },
-    { icon: '🧴', label: 'Acne Control', description: 'Breakouts, excess oil, congestion' }
-  ];
-
-  const skinTypes = [
-    { icon: '🫧', label: 'Oily', description: 'Shiny, prone to breakouts' },
-    { icon: '🌵', label: 'Dry', description: 'Tight, flaky, rough' },
-    { icon: '🔄', label: 'Combination', description: 'Oily T-zone, dry cheeks' },
-    { icon: '🌱', label: 'Normal', description: 'Balanced, few concerns' },
-    { icon: '🌸', label: 'Sensitive', description: 'Reactive, easily irritated' }
-  ];
-
-  const sensitivitiesList = [
-    { icon: '☀️', label: 'Sun Sensitivity', description: 'Burns easily, hyperpigmentation' },
-    { icon: '🧪', label: 'Product Sensitivity', description: 'Reacts to new products' },
-    { icon: '🌿', label: 'Fragrance Sensitivity', description: 'Irritation from scents' },
-    { icon: '💊', label: 'Medication Effects', description: 'On treatments affecting skin' }
-  ];
-
-  const commonProducts = [
-    { category: 'Actives', items: ['Retinol', 'Vitamin C', 'AHA/BHA', 'Niacinamide'] },
-    { category: 'Treatments', items: ['Benzoyl Peroxide', 'Prescription Tretinoin', 'Hydroquinone'] },
-    { category: 'Moisturizers', items: ['Hyaluronic Acid', 'Ceramides', 'Peptides'] }
-  ];
-
-  const handleConcernToggle = (label: string) => {
-    setSelectedConcerns(prev => 
-      prev.includes(label) 
-        ? prev.filter(c => c !== label)
-        : [...prev, label]
-    );
-  };
-
-  const handleSensitivityToggle = (label: string) => {
-    setSensitivities(prev =>
-      prev.includes(label)
-        ? prev.filter(s => s !== label)
-        : [...prev, label]
-    );
-  };
-
-  const handleProductToggle = (product: string) => {
-    setCurrentProducts(prev =>
-      prev.includes(product)
-        ? prev.filter(p => p !== product)
-        : [...prev, product]
-    );
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch('/api/submit-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          skinType,
-          ethnicity,
-          selectedConcerns,
-          sensitivities,
-          currentProducts
-        }),
-      });
-
-      const data = await response.json();
-      if (data.success) {
-        setStep(7); // Move to success step
-      } else {
-        console.error('Failed to submit form');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
-  };
-
-  const renderStepContent = () => {
-    switch (step) {
-      case 1:
-        return (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-4"
-          >
-            <h3 className="text-lg font-medium">What's your ethnicity?</h3>
-            <p className="text-sm text-white/60">This helps us understand your skin's characteristics and needs.</p>
-            <div className="space-y-2">
-              {ethnicityOptions.map((option) => (
-                <button
-                  key={option.label}
-                  onClick={() => setEthnicity(option.label)}
-                  className={`w-full p-4 rounded-xl bg-[#1A1A1E] border transition-colors ${
-                    ethnicity === option.label
-                      ? 'border-[#FF3BFF]'
-                      : 'border-white/10 hover:border-[#FF3BFF]/50'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="text-left flex-1">
-                      <h4 className="text-sm font-medium">{option.label}</h4>
-                      <p className="text-xs text-white/60">{option.description}</p>
-                    </div>
-                    {ethnicity === option.label && (
-                      <DocumentCheckIcon className="w-5 h-5 text-[#FF3BFF]" />
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        );
-      case 2:
-        return (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-4"
-          >
-            <h3 className="text-lg font-medium">What's your skin type?</h3>
-            <p className="text-sm text-white/60">This helps us understand your skin's natural state.</p>
-            <div className="space-y-2">
-              {skinTypes.map((type) => (
-                <button
-                  key={type.label}
-                  onClick={() => setSkinType(type.label)}
-                  className={`w-full p-4 rounded-xl bg-[#1A1A1E] border transition-colors ${
-                    skinType === type.label
-                      ? 'border-[#FF3BFF]'
-                      : 'border-white/10 hover:border-[#FF3BFF]/50'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{type.icon}</span>
-                    <div className="text-left flex-1">
-                      <h4 className="text-sm font-medium">{type.label}</h4>
-                      <p className="text-xs text-white/60">{type.description}</p>
-                    </div>
-                    {skinType === type.label && (
-                      <DocumentCheckIcon className="w-5 h-5 text-[#FF3BFF]" />
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        );
-      case 3:
-        return (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-4"
-          >
-            <h3 className="text-lg font-medium">What are your main concerns?</h3>
-            <p className="text-sm text-white/60">Select all that apply. This helps us prioritize your needs.</p>
-            <div className="space-y-2">
-              {concerns.map((concern) => (
-                <button
-                  key={concern.label}
-                  onClick={() => handleConcernToggle(concern.label)}
-                  className={`w-full p-4 rounded-xl bg-[#1A1A1E] border transition-colors ${
-                    selectedConcerns.includes(concern.label)
-                      ? 'border-[#FF3BFF]'
-                      : 'border-white/10 hover:border-[#FF3BFF]/50'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{concern.icon}</span>
-                    <div className="text-left flex-1">
-                      <h4 className="text-sm font-medium">{concern.label}</h4>
-                      <p className="text-xs text-white/60">{concern.description}</p>
-                    </div>
-                    {selectedConcerns.includes(concern.label) && (
-                      <DocumentCheckIcon className="w-5 h-5 text-[#FF3BFF]" />
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        );
-      case 4:
-        return (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-4"
-          >
-            <h3 className="text-lg font-medium">Any sensitivities we should know about?</h3>
-            <p className="text-sm text-white/60">This helps us avoid potential irritants.</p>
-            <div className="space-y-2">
-              {sensitivitiesList.map((sensitivity) => (
-                <button
-                  key={sensitivity.label}
-                  onClick={() => handleSensitivityToggle(sensitivity.label)}
-                  className={`w-full p-4 rounded-xl bg-[#1A1A1E] border transition-colors ${
-                    sensitivities.includes(sensitivity.label)
-                      ? 'border-[#FF3BFF]'
-                      : 'border-white/10 hover:border-[#FF3BFF]/50'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{sensitivity.icon}</span>
-                    <div className="text-left flex-1">
-                      <h4 className="text-sm font-medium">{sensitivity.label}</h4>
-                      <p className="text-xs text-white/60">{sensitivity.description}</p>
-                    </div>
-                    {sensitivities.includes(sensitivity.label) && (
-                      <DocumentCheckIcon className="w-5 h-5 text-[#FF3BFF]" />
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        );
-      case 5:
-        return (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-4"
-          >
-            <h3 className="text-lg font-medium">What products are you currently using?</h3>
-            <p className="text-sm text-white/60">Select active ingredients or choose "None" if you're not using any products.</p>
-            
-            <button
-              onClick={() => setCurrentProducts([])}
-              className={`w-full p-4 rounded-xl bg-[#1A1A1E] border transition-colors mb-4 ${
-                currentProducts.length === 0
-                  ? 'border-[#FF3BFF]'
-                  : 'border-white/10 hover:border-[#FF3BFF]/50'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <div className="text-left flex-1">
-                  <h4 className="text-sm font-medium">None</h4>
-                  <p className="text-xs text-white/60">I'm not using any skincare products currently</p>
-                </div>
-                {currentProducts.length === 0 && (
-                  <DocumentCheckIcon className="w-5 h-5 text-[#FF3BFF]" />
-                )}
-              </div>
-            </button>
-
-            <div className="space-y-4">
-              {commonProducts.map((group) => (
-                <div key={group.category} className="space-y-2">
-                  <h4 className="text-sm font-medium text-white/60">{group.category}</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {group.items.map((item) => (
-                      <button
-                        key={item}
-                        onClick={() => {
-                          if (currentProducts.length === 0) {
-                            handleProductToggle(item);
-                          } else {
-                            handleProductToggle(item);
-                          }
-                        }}
-                        className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                          currentProducts.includes(item)
-                            ? 'bg-[#FF3BFF] text-white'
-                            : 'bg-[#1A1A1E] text-white/60 hover:bg-[#242428]'
-                        }`}
-                      >
-                        {item}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        );
-      case 6:
-        return (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-4"
-          >
-            <h3 className="text-lg font-medium">Get Your Free Custom Plan</h3>
-            <div className="p-4 rounded-xl bg-[#1A1A1E] border border-white/10 space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#FF3BFF]/10 flex items-center justify-center">
-                  <SparklesIcon className="w-5 h-5 text-[#FF3BFF]" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-sm font-medium mb-2">Your Profile Summary</h4>
-                  <div className="space-y-2">
-                    <p className="text-xs text-white/60">
-                      <span className="text-white">Ethnicity:</span> {ethnicity}
-                    </p>
-                    <p className="text-xs text-white/60">
-                      <span className="text-white">Skin Type:</span> {skinType}
-                    </p>
-                    {selectedConcerns.length > 0 && (
-                      <div>
-                        <p className="text-xs text-white/60 mb-1">Main Concerns:</p>
-                        <div className="flex flex-wrap gap-1">
-                          {selectedConcerns.map(concern => (
-                            <span key={concern} className="text-xs px-2 py-0.5 rounded-full bg-[#242428]">
-                              {concern}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    {sensitivities.length > 0 && (
-                      <div>
-                        <p className="text-xs text-white/60 mb-1">Sensitivities:</p>
-                        <div className="flex flex-wrap gap-1">
-                          {sensitivities.map(sensitivity => (
-                            <span key={sensitivity} className="text-xs px-2 py-0.5 rounded-full bg-[#242428]">
-                              {sensitivity}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm text-white/60">Get your free personalized plan</label>
-                <div className="relative">
-                  <EnvelopeIcon className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-white/40" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-[#242428] border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#FF3BFF]"
-                  />
-                </div>
-              </div>
-
-              <div className="p-3 rounded-lg bg-[#242428] border border-white/5">
-                <div className="flex items-start gap-2">
-                  <LightBulbIcon className="w-4 h-4 text-[#FF3BFF] mt-0.5" />
-                  <p className="text-xs text-white/60">
-                    Join thousands achieving their dream skin with personalized skincare routines tailored just for you. Start your journey today!
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        );
-      case 7:
-        return (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center space-y-4"
-          >
-            <div className="w-16 h-16 mx-auto rounded-full bg-[#FF3BFF]/10 flex items-center justify-center">
-              <SparklesIcon className="w-8 h-8 text-[#FF3BFF]" />
-            </div>
-            <h3 className="text-lg font-medium">Your 7-Day Journey Begins!</h3>
-            <p className="text-sm text-white/60">
-              We've crafted your perfect routine with:
-            </p>
-            <div className="space-y-2">
-              <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10 text-left">
-                <div className="flex items-start gap-2">
-                  <CheckIcon className="w-4 h-4 text-[#FF3BFF] mt-0.5" />
-                  <p className="text-xs text-white/60">
-                    Personalized product recommendations
-                  </p>
-                </div>
-              </div>
-              <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10 text-left">
-                <div className="flex items-start gap-2">
-                  <CheckIcon className="w-4 h-4 text-[#FF3BFF] mt-0.5" />
-                  <p className="text-xs text-white/60">
-                    Daily morning & evening routines
-                  </p>
-                </div>
-              </div>
-              <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10 text-left">
-                <div className="flex items-start gap-2">
-                  <CheckIcon className="w-4 h-4 text-[#FF3BFF] mt-0.5" />
-                  <p className="text-xs text-white/60">
-                    Smart reminders & progress tracking
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="p-4 rounded-xl bg-[#1A1A1E] border border-white/10">
-              <p className="text-xs text-white/40">Check your email at: {email}</p>
-            </div>
-          </motion.div>
-        );
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-[#0A0A0E] z-50">
-      <div className="relative h-full flex flex-col">
-        {/* Header */}
-        <div className="bg-[#0A0A0E] border-b border-white/10 p-4">
-          <div className="flex items-center justify-between">
-            <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-lg">
-              <ArrowLeftIcon className="w-5 h-5" />
-            </button>
-            <h1 className="text-lg font-medium">Get Your Free 7-Day Plan</h1>
-            <div className="w-9" /> {/* Spacer for alignment */}
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-track-[#1A1A1E] scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20">
-          {renderStepContent()}
-        </div>
-        
-        {/* Footer */}
-        <div className="p-4 bg-gradient-to-t from-[#0A0A0E]/90 via-[#0A0A0E]/80 to-transparent backdrop-blur-sm">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex gap-1">
-              {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-                <div
-                  key={i}
-                  className={`w-7 h-1 rounded-full ${
-                    i === step ? 'bg-[#FF3BFF]' : 'bg-white/10'
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="text-sm text-white/40">Step {step} of 7</span>
-          </div>
-          <button 
-            onClick={() => {
-              if (step === 1 && !ethnicity) return;
-              if (step === 2 && !skinType) return;
-              if (step === 3 && selectedConcerns.length === 0) return;
-              if (step === 6) {
-                if (!email) return;
-                handleSubmit();
-                return;
-              }
-              if (step === 7) {
-                onClose();
-                return;
-              }
-              setStep(prev => Math.min(prev + 1, 7));
-            }}
-            className={`w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-white font-medium ${
-              (step === 1 && !ethnicity) ||
-              (step === 2 && !skinType) ||
-              (step === 3 && selectedConcerns.length === 0) ||
-              (step === 6 && !email)
-                ? 'opacity-50 cursor-not-allowed'
-                : ''
-            }`}
-          >
-            {step === 7 ? 'Back to Calendar' : 'Continue'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}; 
-
 export default function SkinCareCalendar() {
-  const [selectedDay, setSelectedDay] = useState<Date | null>(new Date());
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [view, setView] = useState<'calendar' | 'routine' | 'insights' | 'plans'>('calendar');
-  const [showCreatePlan, setShowCreatePlan] = useState(false);
-  const [activeInsight, setActiveInsight] = useState<InsightCard | null>(null);
+  // Initialize state first
+  const [state, setState] = useState({
+    selectedDay: new Date(),
+    currentMonth: new Date(),
+    view: 'calendar' as 'calendar' | 'routine' | 'insights' | 'plans',
+    showCreatePlan: false,
+    activeInsight: null as InsightCard | null
+  });
+  
+  // Batch state updates
+  const updateState = (updates: Partial<typeof state>) => {
+    setState(prev => ({ ...prev, ...updates }));
+  };
 
   const generateCalendarDays = (): CalendarDay[] => {
     const days: CalendarDay[] = [];
-    const start = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-    const end = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+    const start = new Date(state.currentMonth.getFullYear(), state.currentMonth.getMonth(), 1);
+    const end = new Date(state.currentMonth.getFullYear(), state.currentMonth.getMonth() + 1, 0);
     
     // Add empty days for padding
     const firstDayOfWeek = start.getDay();
@@ -1151,15 +682,18 @@ export default function SkinCareCalendar() {
     return days;
   };
 
+  // Use useMemo with correct dependency
+  const calendarDays = useMemo(() => generateCalendarDays(), [state.currentMonth]);
+
   const navigateMonth = (direction: 'prev' | 'next') => {
-    setCurrentMonth(prev => {
-      const newDate = new Date(prev);
+    setState(prev => {
+      const newDate = new Date(prev.currentMonth);
       if (direction === 'prev') {
-        newDate.setMonth(prev.getMonth() - 1);
+        newDate.setMonth(prev.currentMonth.getMonth() - 1);
       } else {
-        newDate.setMonth(prev.getMonth() + 1);
+        newDate.setMonth(prev.currentMonth.getMonth() + 1);
       }
-      return newDate;
+      return { ...prev, currentMonth: newDate };
     });
   };
 
@@ -1180,9 +714,9 @@ export default function SkinCareCalendar() {
           {(['calendar', 'routine', 'insights', 'plans'] as const).map((tab) => (
             <button
               key={tab}
-              onClick={() => setView(tab)}
+              onClick={() => updateState({ view: tab })}
               className={`flex-1 py-1.5 px-2 rounded-lg text-sm font-medium transition-colors touch-manipulation ${
-                view === tab
+                state.view === tab
                   ? 'bg-[#1A1A1E] text-[#FF3BFF]'
                   : 'text-white/60 hover:text-white active:bg-white/5'
               }`}
@@ -1193,334 +727,343 @@ export default function SkinCareCalendar() {
         </div>
       </div>
 
-      {showCreatePlan ? (
-        <CreatePlanView onClose={() => setShowCreatePlan(false)} />
+      <Suspense fallback={
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-2 h-2 rounded-full bg-[#FF3BFF] animate-ping" />
+        </div>
+      }>
+        {state.showCreatePlan ? (
+          <CreatePlanView onClose={() => updateState({ showCreatePlan: false })} />
       ) : (
         <>
-          {/* Main scrollable content */}
-          <div className="flex-1 overflow-y-auto overscroll-y-contain scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20">
-            <div className="p-2 space-y-2">
-              {view === 'calendar' && (
-                <div className="space-y-3">
-                  {/* Month Navigation */}
-                  <div className="flex items-center justify-between">
-                    <button 
-                      onClick={() => navigateMonth('prev')}
-                      className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 active:bg-white/15 touch-manipulation"
-                    >
-                      <ArrowLeftIcon className="w-4 h-4" />
-                    </button>
-                    <h2 className="text-sm font-medium">
-                      {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
-                    </h2>
-                    <button 
-                      onClick={() => navigateMonth('next')}
-                      className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 active:bg-white/15 touch-manipulation"
-                    >
-                      <ArrowRightIcon className="w-4 h-4" />
-                    </button>
-                  </div>
+            {/* Main scrollable content */}
+            <div className="flex-1 overflow-y-auto overscroll-y-contain scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20">
+              <div className="p-2 space-y-2">
+                {state.view === 'calendar' && (
+                  <motion.div
+                    initial={false}
+                    className="space-y-3"
+                  >
+                {/* Month Navigation */}
+                <div className="flex items-center justify-between">
+                  <button 
+                    onClick={() => navigateMonth('prev')}
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 active:bg-white/15 touch-manipulation"
+                  >
+                    <ArrowLeftIcon className="w-4 h-4" />
+                  </button>
+                      <h2 className="text-sm font-medium">
+                        {state.currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  </h2>
+                  <button 
+                    onClick={() => navigateMonth('next')}
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 active:bg-white/15 touch-manipulation"
+                  >
+                    <ArrowRightIcon className="w-4 h-4" />
+                  </button>
+                </div>
 
-                  {/* Calendar Grid */}
-                  <div className="grid grid-cols-7 gap-0.5 text-center text-xs mb-1">
-                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
-                      <div key={i} className="text-white/40 py-1">
-                        {day}
+                    {/* Calendar Grid */}
+                    <div className="grid grid-cols-7 gap-0.5 text-center text-xs mb-1">
+                      {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
+                        <div key={i} className="text-white/40 py-1">
+                          {day}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-7 gap-0.5">
+                      {calendarDays.map((day, i) => (
+                    <motion.button
+                      key={i}
+                          onClick={() => updateState({ selectedDay: day.date })}
+                          className={`aspect-square rounded-lg relative touch-manipulation ${
+                            day.date.getMonth() !== state.currentMonth.getMonth()
+                              ? 'opacity-30'
+                              : ''
+                          } ${
+                            state.selectedDay?.toDateString() === day.date.toDateString()
+                              ? 'bg-gradient-to-br from-[#FF3BFF] to-[#5C24FF]'
+                              : 'hover:bg-white/5 active:bg-white/10'
+                      }`}
+                    >
+                      <div className="w-full h-full rounded-md flex flex-col items-center justify-center">
+                            <span className={`text-sm ${
+                              state.currentMonth.getMonth() !== day.date.getMonth()
+                            ? 'text-white/20'
+                            : day.isToday
+                            ? 'text-[#FF3BFF]'
+                            : 'text-white'
+                        }`}>
+                          {day.date.getDate()}
+                        </span>
+                        {day.hasRoutine && (
+                              <div className="flex gap-0.5 mt-1">
+                                <div className="w-1 h-1 rounded-full bg-[#FF3BFF]" />
+                            {day.hasInsights && (
+                                  <div className="w-1 h-1 rounded-full bg-[#5C24FF]" />
+                            )}
+                          </div>
+                        )}
                       </div>
-                    ))}
-                  </div>
+                    </motion.button>
+                  ))}
+                </div>
 
-                  <div className="grid grid-cols-7 gap-0.5">
-                    {generateCalendarDays().map((day, i) => (
-                      <motion.button
-                        key={i}
-                        onClick={() => setSelectedDay(day.date)}
-                        className={`aspect-square rounded-lg relative touch-manipulation ${
-                          day.date.getMonth() !== currentMonth.getMonth()
-                            ? 'opacity-30'
-                            : ''
-                        } ${
-                          selectedDay?.toDateString() === day.date.toDateString()
-                            ? 'bg-gradient-to-br from-[#FF3BFF] to-[#5C24FF]'
-                            : 'hover:bg-white/5 active:bg-white/10'
-                        }`}
-                      >
-                        <div className="w-full h-full rounded-md flex flex-col items-center justify-center">
-                          <span className={`text-sm ${
-                            currentMonth.getMonth() !== day.date.getMonth()
-                              ? 'text-white/20'
-                              : day.isToday
-                              ? 'text-[#FF3BFF]'
-                              : 'text-white'
-                          }`}>
-                            {day.date.getDate()}
-                          </span>
-                          {day.hasRoutine && (
-                            <div className="flex gap-0.5 mt-1">
-                              <div className="w-1 h-1 rounded-full bg-[#FF3BFF]" />
-                              {day.hasInsights && (
-                                <div className="w-1 h-1 rounded-full bg-[#5C24FF]" />
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      </motion.button>
-                    ))}
-                  </div>
-
-                  {/* Selected Day View */}
-                  {selectedDay && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="space-y-3"
-                    >
-                      <div className="p-2 rounded-xl bg-[#1A1A1E] border border-white/10">
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="text-sm font-medium">
-                            {selectedDay.toLocaleDateString('en-US', { 
-                              weekday: 'long',
-                              month: 'short',
-                              day: 'numeric'
-                            })}
-                          </h3>
-                          <button 
-                            onClick={() => setView('routine')}
-                            className="text-xs text-[#FF3BFF] font-medium"
-                          >
-                            View Full Routine →
-                          </button>
-                        </div>
-                        <div className="space-y-2">
-                          {demoDayRoutine.morning.map((step) => (
-                            <div key={step.id} className="flex items-center gap-2">
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#FF3BFF]" />
-                              <span className="text-sm text-white/60">{step.name}</span>
-                              <span className="text-xs text-white/40 ml-auto">{step.time}</span>
-                              {step.insights.length > 0 && (
-                                <span className={`text-xs px-2 py-0.5 rounded-full ${
-                                  step.insights[0].type === 'warning' 
-                                    ? 'bg-amber-500/10 text-amber-400'
-                                    : step.insights[0].type === 'progress'
-                                    ? 'bg-green-500/10 text-green-400'
-                                    : 'bg-blue-500/10 text-blue-400'
-                                }`}>
-                                  {step.insights[0].type === 'warning' ? '!' : '✓'}
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                    {/* Selected Day View */}
+                    {state.selectedDay && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                        className="space-y-3"
+                  >
+                        <div className="p-2 rounded-xl bg-[#1A1A1E] border border-white/10">
+                          <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-sm font-medium">
+                              {state.selectedDay.toLocaleDateString('en-US', { 
+                            weekday: 'long',
+                            month: 'short',
+                            day: 'numeric'
+                          })}
+                        </h3>
+                        <button 
+                              onClick={() => updateState({ view: 'routine' })}
+                          className="text-xs text-[#FF3BFF] font-medium"
+                        >
+                          View Full Routine →
+                        </button>
                       </div>
+                      <div className="space-y-2">
+                        {demoDayRoutine.morning.map((step) => (
+                          <div key={step.id} className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#FF3BFF]" />
+                            <span className="text-sm text-white/60">{step.name}</span>
+                            <span className="text-xs text-white/40 ml-auto">{step.time}</span>
+                            {step.insights.length > 0 && (
+                              <span className={`text-xs px-2 py-0.5 rounded-full ${
+                                step.insights[0].type === 'warning' 
+                                  ? 'bg-amber-500/10 text-amber-400'
+                                  : step.insights[0].type === 'progress'
+                                  ? 'bg-green-500/10 text-green-400'
+                                  : 'bg-blue-500/10 text-blue-400'
+                              }`}>
+                                {step.insights[0].type === 'warning' ? '!' : '✓'}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
 
-                      {/* Notifications Preview */}
+                    {/* Notifications Preview */}
+                    <div className="p-3 rounded-xl bg-[#1A1A1E] border border-white/10">
+                      <div className="flex items-center gap-2 mb-3">
+                        <BellIcon className="w-4 h-4 text-[#FF3BFF]" />
+                        <h3 className="text-sm font-medium">Today's Reminders</h3>
+                      </div>
+                      <div className="space-y-2">
+                        {demoNotifications.slice(0, 2).map((notification) => (
+                          <div key={notification.id} className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-lg bg-[#242428] flex items-center justify-center">
+                              {notification.icon}
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-sm">{notification.title}</p>
+                              <p className="text-xs text-white/40">{notification.time}</p>
+                            </div>
+                            {notification.priority === 'high' && (
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#FF3BFF] animate-pulse" />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Quick Stats - Inline */}
+                    <div className="grid grid-cols-2 gap-3">
                       <div className="p-3 rounded-xl bg-[#1A1A1E] border border-white/10">
-                        <div className="flex items-center gap-2 mb-3">
-                          <BellIcon className="w-4 h-4 text-[#FF3BFF]" />
-                          <h3 className="text-sm font-medium">Today's Reminders</h3>
+                        <div className="flex items-center gap-2 mb-1">
+                          <StarIcon className="w-4 h-4 text-[#FF3BFF]" />
+                          <h3 className="text-sm font-medium">Streak</h3>
                         </div>
-                        <div className="space-y-2">
-                          {demoNotifications.slice(0, 2).map((notification) => (
-                            <div key={notification.id} className="flex items-center gap-2">
-                              <div className="w-6 h-6 rounded-lg bg-[#242428] flex items-center justify-center">
-                                {notification.icon}
-                              </div>
-                              <div className="flex-1">
-                                <p className="text-sm">{notification.title}</p>
-                                <p className="text-xs text-white/40">{notification.time}</p>
-                              </div>
-                              {notification.priority === 'high' && (
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#FF3BFF] animate-pulse" />
-                              )}
-                            </div>
-                          ))}
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-xl font-bold">7</span>
+                          <span className="text-xs text-white/40">days</span>
                         </div>
                       </div>
-
-                      {/* Quick Stats - Inline */}
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="p-3 rounded-xl bg-[#1A1A1E] border border-white/10">
-                          <div className="flex items-center gap-2 mb-1">
-                            <StarIcon className="w-4 h-4 text-[#FF3BFF]" />
-                            <h3 className="text-sm font-medium">Streak</h3>
-                          </div>
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-xl font-bold">7</span>
-                            <span className="text-xs text-white/40">days</span>
-                          </div>
+                      <div className="p-3 rounded-xl bg-[#1A1A1E] border border-white/10">
+                        <div className="flex items-center gap-2 mb-1">
+                          <ArrowTrendingUpIcon className="w-4 h-4 text-[#5C24FF]" />
+                          <h3 className="text-sm font-medium">Progress</h3>
                         </div>
-                        <div className="p-3 rounded-xl bg-[#1A1A1E] border border-white/10">
-                          <div className="flex items-center gap-2 mb-1">
-                            <ArrowTrendingUpIcon className="w-4 h-4 text-[#5C24FF]" />
-                            <h3 className="text-sm font-medium">Progress</h3>
-                          </div>
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-xl font-bold">+12%</span>
-                            <span className="text-xs text-white/40">week</span>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-              )}
-
-              {view === 'routine' && (
-                <div className="space-y-3">
-                  <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10">
-                    <h3 className="text-base font-medium mb-3">Morning Routine</h3>
-                    <div className="space-y-2.5">
-                      {demoDayRoutine.morning.map((step) => (
-                        <RoutineStep key={step.id} step={step} />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10">
-                    <h3 className="text-base font-medium mb-3">Evening Routine</h3>
-                    <div className="space-y-2.5">
-                      {demoDayRoutine.evening.map((step) => (
-                        <RoutineStep key={step.id} step={step} />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10">
-                    <div className="flex items-center gap-2 mb-3">
-                      <SparklesIcon className="w-4 h-4 text-[#FF3BFF]" />
-                      <h3 className="text-sm font-medium">Why This Routine</h3>
-                    </div>
-                    <div className="space-y-3">
-                      <p className="text-sm text-white/60 leading-relaxed">
-                        Based on your skin's sensitivity to retinol and recent progress with barrier repair,
-                        we've adjusted your routine to focus on gentle hydration in the morning and repair at night.
-                      </p>
-                      <div className="p-2 rounded-lg bg-[#242428] border border-white/5">
-                        <div className="flex items-start gap-2">
-                          <ChartBarIcon className="w-4 h-4 text-[#5C24FF] mt-0.5" />
-                          <p className="text-sm text-white/60">87% of users with similar skin profiles saw improvement with this combination</p>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-xl font-bold">+12%</span>
+                          <span className="text-xs text-white/40">week</span>
                         </div>
                       </div>
                     </div>
+                  </motion.div>
+                )}
+                  </motion.div>
+            )}
+
+                {state.view === 'routine' && (
+              <div className="space-y-3">
+                    <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10">
+                      <h3 className="text-base font-medium mb-3">Morning Routine</h3>
+                      <div className="space-y-2.5">
+                    {demoDayRoutine.morning.map((step) => (
+                      <RoutineStep key={step.id} step={step} />
+                    ))}
                   </div>
                 </div>
-              )}
 
-              {view === 'insights' && (
-                <div className="space-y-2.5">
-                  {/* Stats Cards */}
-                  <div className="grid grid-cols-2 gap-2.5">
                     <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10">
-                      <div className="flex items-center gap-2 mb-2">
-                        <StarIcon className="w-4 h-4 text-[#FF3BFF]" />
-                        <h3 className="text-base font-medium">Weekly Score</h3>
+                      <h3 className="text-base font-medium mb-3">Evening Routine</h3>
+                      <div className="space-y-2.5">
+                        {demoDayRoutine.evening.map((step) => (
+                          <RoutineStep key={step.id} step={step} />
+                        ))}
                       </div>
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-xl font-bold">92</span>
-                        <span className="text-sm text-white/40">/ 100</span>
-                      </div>
-                    </div>
+                </div>
+
                     <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10">
-                      <div className="flex items-center gap-2 mb-2">
-                        <ChartBarIcon className="w-4 h-4 text-[#5C24FF]" />
-                        <h3 className="text-base font-medium">Improvements</h3>
-                      </div>
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-lg font-bold">4</span>
-                        <span className="text-[10px] text-white/40">areas</span>
-                      </div>
-                    </div>
+                      <div className="flex items-center gap-2 mb-3">
+                    <SparklesIcon className="w-4 h-4 text-[#FF3BFF]" />
+                        <h3 className="text-sm font-medium">Why This Routine</h3>
                   </div>
-
-                  {demoInsights.map((insight, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="p-2 rounded-lg bg-[#1A1A1E] border border-white/10"
-                    >
+                  <div className="space-y-3">
+                        <p className="text-sm text-white/60 leading-relaxed">
+                      Based on your skin's sensitivity to retinol and recent progress with barrier repair,
+                      we've adjusted your routine to focus on gentle hydration in the morning and repair at night.
+                    </p>
+                    <div className="p-2 rounded-lg bg-[#242428] border border-white/5">
                       <div className="flex items-start gap-2">
-                        <div className="mt-0.5">
-                          <InsightIcon type={insight.type} />
+                        <ChartBarIcon className="w-4 h-4 text-[#5C24FF] mt-0.5" />
+                            <p className="text-sm text-white/60">87% of users with similar skin profiles saw improvement with this combination</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+                {state.view === 'insights' && (
+                  <div className="space-y-2.5">
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10">
+                        <div className="flex items-center gap-2 mb-2">
+                      <StarIcon className="w-4 h-4 text-[#FF3BFF]" />
+                          <h3 className="text-base font-medium">Weekly Score</h3>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-xl font-bold">92</span>
+                          <span className="text-sm text-white/40">/ 100</span>
+                    </div>
+                  </div>
+                      <div className="p-3 rounded-lg bg-[#1A1A1E] border border-white/10">
+                        <div className="flex items-center gap-2 mb-2">
+                      <ChartBarIcon className="w-4 h-4 text-[#5C24FF]" />
+                          <h3 className="text-base font-medium">Improvements</h3>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                          <span className="text-lg font-bold">4</span>
+                          <span className="text-[10px] text-white/40">areas</span>
+                    </div>
+                  </div>
+                </div>
+
+                {demoInsights.map((insight, index) => (
+                  <motion.div
+                    key={index}
+                        initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="p-2 rounded-lg bg-[#1A1A1E] border border-white/10"
+                  >
+                        <div className="flex items-start gap-2">
+                          <div className="mt-0.5">
+                        <InsightIcon type={insight.type} />
+                      </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <h4 className="text-xs font-medium truncate">{insight.title}</h4>
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded-full shrink-0 ${
+                            insight.impact === 'high' 
+                              ? 'bg-[#FF3BFF]/10 text-[#FF3BFF]'
+                              : insight.impact === 'medium'
+                              ? 'bg-[#5C24FF]/10 text-[#5C24FF]'
+                              : 'bg-[#D94DFF]/10 text-[#D94DFF]'
+                          }`}>
+                            {insight.impact.charAt(0).toUpperCase() + insight.impact.slice(1)}
+                          </span>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between gap-2 mb-1">
-                            <h4 className="text-xs font-medium truncate">{insight.title}</h4>
-                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full shrink-0 ${
-                              insight.impact === 'high' 
-                                ? 'bg-[#FF3BFF]/10 text-[#FF3BFF]'
-                                : insight.impact === 'medium'
-                                ? 'bg-[#5C24FF]/10 text-[#5C24FF]'
-                                : 'bg-[#D94DFF]/10 text-[#D94DFF]'
-                            }`}>
-                              {insight.impact.charAt(0).toUpperCase() + insight.impact.slice(1)}
-                            </span>
-                          </div>
-                          <p className="text-xs text-white/60 leading-snug mb-1.5">{insight.description}</p>
-                          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/5 text-white/40 inline-block">
+                            <p className="text-xs text-white/60 leading-snug mb-1.5">{insight.description}</p>
+                            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/5 text-white/40 inline-block">
                             {insight.source === 'ai' ? '🤖 AI Analysis' : 
                              insight.source === 'expert' ? '👩‍⚕️ Expert Review' : 
                              '📊 Research Based'}
                           </span>
-                        </div>
                       </div>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
 
-              {view === 'plans' && (
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center mb-1">
-                    <h3 className="text-base font-medium">Available Plans</h3>
-                    <button className="text-sm text-[#FF3BFF] font-medium">
-                      Get Free 7-Day Plan →
-                    </button>
-                  </div>
-                  {koreanSkincarePlans.map((plan, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="p-4 rounded-xl bg-[#1A1A1E] border border-white/10"
-                    >
-                      <div className="flex justify-between items-center mb-3">
-                        <h4 className="text-sm font-medium">{plan.name}</h4>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-[#FF3BFF]/10 text-[#FF3BFF]">
-                          {plan.duration}
-                        </span>
-                      </div>
-                      <p className="text-sm text-white/60 mb-3">{plan.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {plan.benefits.map((benefit, i) => (
-                          <span 
-                            key={i}
-                            className="text-xs px-2 py-0.5 rounded-full bg-[#1A1A1E] border border-white/10"
-                          >
-                            {benefit}
-                          </span>
-                        ))}
-                      </div>
-                    </motion.div>
-                  ))}
+                {state.view === 'plans' && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center mb-1">
+                  <h3 className="text-base font-medium">Available Plans</h3>
+                      <button className="text-sm text-[#FF3BFF] font-medium">
+                        Get Free 7-Day Plan →
+                  </button>
                 </div>
-              )}
-            </div>
+                {koreanSkincarePlans.map((plan, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="p-4 rounded-xl bg-[#1A1A1E] border border-white/10"
+                  >
+                    <div className="flex justify-between items-center mb-3">
+                      <h4 className="text-sm font-medium">{plan.name}</h4>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-[#FF3BFF]/10 text-[#FF3BFF]">
+                        {plan.duration}
+                      </span>
+                    </div>
+                    <p className="text-sm text-white/60 mb-3">{plan.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {plan.benefits.map((benefit, i) => (
+                        <span 
+                          key={i}
+                          className="text-xs px-2 py-0.5 rounded-full bg-[#1A1A1E] border border-white/10"
+                        >
+                          {benefit}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+              </div>
           </div>
 
-          {/* Bottom Action Button - Fixed at bottom */}
-          <div className="flex-none p-3 bg-gradient-to-t from-[#0A0A0E]/90 via-[#0A0A0E]/80 to-transparent backdrop-blur-sm">
+            {/* Bottom Action Button - Fixed at bottom */}
+            <div className="flex-none p-3 bg-gradient-to-t from-[#0A0A0E]/90 via-[#0A0A0E]/80 to-transparent backdrop-blur-sm">
             <button 
-              onClick={() => setShowCreatePlan(true)}
-              className="w-full py-2.5 px-4 rounded-lg bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-white text-sm font-medium touch-manipulation active:opacity-90 shadow-lg shadow-[#FF3BFF]/10"
+                onClick={() => updateState({ showCreatePlan: true })}
+                className="w-full py-2.5 px-4 rounded-lg bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-white text-sm font-medium touch-manipulation active:opacity-90 shadow-lg shadow-[#FF3BFF]/10"
             >
-              Get Your Free 7-Day Plan →
+                Get Your Free 7-Day Plan →
             </button>
           </div>
         </>
       )}
+      </Suspense>
     </div>
   );
 } 
