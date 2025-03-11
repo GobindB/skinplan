@@ -14,7 +14,16 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount }) => 
   };
 
   return (
-    <section id="waitlist-section" className="relative py-32 bg-[#0A0A0E] text-white overflow-hidden">
+    <section id="waitlist-section" className="relative py-20 bg-gradient-to-b from-[#0A0A0E] via-[#0A0A0E] to-[#0A0A0E] text-white overflow-hidden">
+      {/* Gradient Orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 right-1/4 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#D94DFF] to-[#5C24FF] opacity-[0.08] blur-[140px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-[#FF3BFF] to-[#D94DFF] opacity-[0.08] blur-[140px]" />
+      </div>
+
+      {/* Section Transition - Top */}
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#0A0A0E] via-[#0A0A0E]/50 to-transparent pointer-events-none" />
+
       <div className="relative max-w-[1200px] mx-auto px-6">
         <div className="max-w-2xl mx-auto text-center mb-16">
           {/* Beta Tag */}
