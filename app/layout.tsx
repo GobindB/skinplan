@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { Analytics } from "@vercel/analytics/react"
+import { PostHogProvider } from './providers';
 
 import './globals.css';
 
@@ -31,8 +32,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en" className="bg-[#0A0A0E] text-white">
             <body className={`${inter.className} min-h-screen bg-[#0A0A0E]`}>
-                {children}
-                <Analytics />
+                <PostHogProvider>
+                    {children}
+                    <Analytics />
+                </PostHogProvider>
             </body>
         </html>
     );
