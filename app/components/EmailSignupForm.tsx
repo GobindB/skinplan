@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { isValidEmail, getEmailValidationError } from '../utils/validation';
 
 interface EmailSignupFormProps {
   waitlistCount: number;
@@ -12,6 +13,13 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount,
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const validationError = getEmailValidationError(email);
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
+
     setSubmitStatus('loading');
     setErrorMessage('');
 
@@ -35,9 +43,17 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount,
       }
 
       setSubmitStatus('success');
+      setEmail(''); // Clear the form after successful submission
     } catch (error) {
       setSubmitStatus('error');
       setErrorMessage(error instanceof Error ? error.message : 'Failed to join waitlist');
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (errorMessage) {
+      setErrorMessage('');
     }
   };
 
@@ -49,14 +65,12 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount,
           placeholder="Enter your email"
           className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 pr-32 focus:outline-none focus:ring-2 focus:ring-[#FF3BFF] focus:border-transparent transition-colors"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
           required
-          disabled={submitStatus === 'loading' || submitStatus === 'success'}
         />
         <button
           type="submit"
           className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-lg bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
-          disabled={submitStatus === 'loading' || submitStatus === 'success'}
         >
           {submitStatus === 'loading' ? (
             <div className="flex items-center gap-2">

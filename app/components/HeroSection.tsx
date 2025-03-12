@@ -71,22 +71,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
                 
                 <div className="relative">
                   <SkinCareCalendar />
-
-                  {/* Interaction Hint */}
-                  <div className="absolute inset-x-0 bottom-0 pointer-events-none">
-                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0A0E] to-transparent" />
-                    <div className="relative flex items-end justify-center h-32 transition-opacity duration-300 ease-in-out group-hover:opacity-0">
-                      <div className="flex items-center gap-2 text-white/60 text-sm pb-4">
-                        <motion.div
-                          animate={{ y: [0, -4, 0] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                        >
-                          ↑
-                        </motion.div>
-                        <span>Try it out</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

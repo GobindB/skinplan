@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Airtable from 'airtable';
+import { isValidEmail } from '../../utils/validation';
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID!);
 
@@ -8,6 +9,10 @@ export async function POST(req: NextRequest) {
         const { email, skinType, ethnicity, selectedConcerns, sensitivities, currentProducts } = await req.json();
         if (!email) {
             return NextResponse.json({ success: false, message: "Email is required" }, { status: 400 });
+        }
+
+        if (!isValidEmail(email)) {
+            return NextResponse.json({ success: false, message: "Please enter a valid email address" }, { status: 400 });
         }
 
         // Format the notes field

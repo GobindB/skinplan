@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { isValidEmail, getEmailValidationError } from '../utils/validation';
 import { 
   XMarkIcon,
   ChevronRightIcon,
@@ -88,6 +89,7 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
     routineLevel: '',
     email: initialEmail
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Handle click outside
   const modalRef = useRef<HTMLDivElement>(null);
@@ -127,6 +129,12 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    const validationError = getEmailValidationError(formData.email);
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
+
     // Format the selections as a readable string
     const notes = [
       `Skin Type: ${skinTypes.find(t => t.id === formData.skinType)?.name || formData.skinType}`,
@@ -155,7 +163,14 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
       onClose();
     } catch (error) {
       console.error('Error submitting form:', error);
-      // You might want to show an error message to the user here
+      setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred');
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, email: e.target.value }));
+    if (errorMessage) {
+      setErrorMessage('');
     }
   };
 
@@ -320,12 +335,12 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
                   type="email"
                   placeholder="Enter your email"
                   value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                  onChange={handleEmailChange}
                   className="w-full px-4 py-3 rounded-lg bg-[#1A1A1E] border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#FF3BFF] focus:border-transparent transition-colors"
                 />
-                {initialEmail && formData.email === initialEmail && (
-                  <p className="text-xs text-white/60">
-                    You can use a different email if you'd like
+                {errorMessage && (
+                  <p className="text-red-500 text-sm mt-2">
+                    {errorMessage}
                   </p>
                 )}
               </div>
@@ -417,7 +432,6 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
               {currentStep === steps.length - 1 ? (
                 <button
                   onClick={handleSubmit}
-                  disabled={!formData.email}
                   className="w-full py-3 rounded-lg bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-white font-medium disabled:opacity-50"
                 >
                   Get Your Free Plan →

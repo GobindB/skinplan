@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { isValidEmail, getEmailValidationError } from '../utils/validation';
 
 interface CallToActionProps {
   waitlistCount: number;
@@ -13,6 +14,13 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const validationError = getEmailValidationError(email);
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
+
     setSubmitStatus('loading');
     setErrorMessage('');
 
@@ -33,6 +41,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
 
       setSubmitStatus('success');
       setIsSubmitted(true);
+      setEmail(''); // Clear the form after successful submission
       
       // Show success message briefly before opening the create plan view
       setTimeout(() => {
@@ -41,6 +50,13 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
     } catch (error) {
       setSubmitStatus('error');
       setErrorMessage(error instanceof Error ? error.message : 'Failed to join waitlist');
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (errorMessage) {
+      setErrorMessage('');
     }
   };
 
@@ -146,9 +162,8 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
                       placeholder="you@example.com"
                       className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#FF3BFF] focus:border-transparent transition-colors"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmailChange}
                       required
-                      disabled={submitStatus === 'loading' || submitStatus === 'success'}
                     />
                   </div>
 
@@ -159,7 +174,6 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
                   <button
                     type="submit"
                     className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-white font-medium hover:opacity-90 transition-opacity shadow-lg shadow-[#FF3BFF]/25 relative"
-                    disabled={submitStatus === 'loading' || submitStatus === 'success'}
                   >
                     {submitStatus === 'loading' ? (
                       <div className="flex items-center justify-center gap-2">

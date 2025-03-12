@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, memo } from 'react';
+import React, { useState, useMemo, memo, useEffect } from 'react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { 
   ChevronRightIcon, 
@@ -631,17 +631,13 @@ interface CalendarDay {
 
 export default function SkinCareCalendar() {
   const dragControls = useDragControls();
-
-  // Initialize state first
   const [state, setState] = useState({
-    selectedDay: new Date(),
-    currentMonth: new Date(),
     view: 'calendar' as 'calendar' | 'routine' | 'insights' | 'plans',
-    showCreatePlan: false,
-    activeInsight: null as InsightCard | null
+    currentMonth: new Date(),
+    selectedDay: new Date(),
+    showCreatePlan: false
   });
-  
-  // Batch state updates
+
   const updateState = (updates: Partial<typeof state>) => {
     setState(prev => ({ ...prev, ...updates }));
   };
@@ -698,35 +694,23 @@ export default function SkinCareCalendar() {
       dragElastic={0.2}
       onDragEnd={(event, info) => {
         if (Math.abs(info.offset.y) > 50) {
-          // Handle swipe up/down actions
           console.log('Swiped', info.offset.y > 0 ? 'down' : 'up');
         }
       }}
       className="touch-pan-y"
     >
       <div className="w-full max-w-[375px] mx-auto bg-transparent text-white flex flex-col h-[700px] relative">
-        {/* Interactive Demo Badge */}
-        <div className="absolute -top-3 -right-3 z-[100]">
-          <div className="relative">
-            <div className="absolute inset-0 bg-[#22C55E] rounded-full blur-lg opacity-30 animate-pulse" />
-            <div className="relative px-2 py-1 bg-[#1A1A1E] rounded-full border border-white/10 backdrop-blur-sm">
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse" />
-                <span className="text-[10px] font-medium text-white">Interactive Demo</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Header with Tabs - Fixed at top */}
         <div className="bg-[#0A0A0E]/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-10 flex-none">
           <div className="px-3 pt-3 pb-1">
-            <div className="flex flex-col items-center mb-1">
+            <div className="flex flex-col items-center">
               <h1 className="text-base font-medium">Your Skincare Journey</h1>
-            </div>
-            <div className="flex items-center justify-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#FF3BFF] shadow-[0_0_10px_rgba(255,59,255,0.5)]" />
-              <span className="text-sm text-white/60">In Your Pocket ✨</span>
+              <p className="text-sm text-white/60 mt-1">In your pocket</p>
+              {/* Interactive Demo Badge */}
+              <div className="mt-2 inline-flex items-center gap-2 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-xs text-emerald-400">Interactive Preview</span>
+              </div>
             </div>
           </div>
           
@@ -736,10 +720,10 @@ export default function SkinCareCalendar() {
               <button
                 key={tab}
                 onClick={() => updateState({ view: tab })}
-                className={`flex-1 py-1.5 px-2 rounded-lg text-sm font-medium transition-colors touch-manipulation ${
+                className={`relative flex-1 py-1.5 px-2 rounded-lg text-sm font-medium transition-colors ${
                   state.view === tab
                     ? 'bg-[#1A1A1E] text-[#FF3BFF]'
-                    : 'text-white/60 hover:text-white active:bg-white/5'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -1075,41 +1059,27 @@ export default function SkinCareCalendar() {
 
               {/* Bottom Action Button - Fixed at bottom */}
               <div className="flex-none p-3 bg-gradient-to-t from-black via-black/95 to-transparent">
-                <div className="relative">
-                  <motion.button 
-                    onClick={() => updateState({ showCreatePlan: true })}
-                    whileHover={{ 
-                      scale: 1.02,
-                      boxShadow: '0 0 50px rgba(255, 59, 255, 0.5), 0 0 100px rgba(92, 36, 255, 0.3)',
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                    className="group relative w-full py-4 px-4 rounded-lg bg-gradient-to-r from-[#FF3BFF] via-[#FF3BFF] to-[#5C24FF] text-white text-lg font-bold tracking-tight touch-manipulation active:opacity-90 shadow-[0_0_30px_rgba(255,59,255,0.3)] border border-white/20 transition-all duration-300 hover:border-white/40"
-                  >
-                    <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-white/30 to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
-                    <div className="relative flex items-center justify-center gap-2">
-                      <span className="group-hover:text-white transition-colors">Get Your Free 7-Day Plan</span>
-                      <motion.span 
-                        className="text-xl"
-                        animate={{ x: [0, 4, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                      >→</motion.span>
-                    </div>
-                  </motion.button>
-
-                  {/* Try it out overlay */}
-                  <div className="absolute inset-x-0 bottom-1">
-                    <div className="flex flex-col items-center">
-                      <motion.div
-                        animate={{ y: [0, -3, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                        className="text-white/60 text-xs"
-                      >
-                        ↑
-                      </motion.div>
-                      <span className="text-white/60 text-xs">Try it out</span>
-                    </div>
+                <motion.button 
+                  onClick={() => updateState({ showCreatePlan: true })}
+                  whileHover={{ 
+                    scale: 1.02,
+                    boxShadow: '0 0 50px rgba(255, 59, 255, 0.5), 0 0 100px rgba(92, 36, 255, 0.3)',
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  className="group relative w-full py-4 px-4 rounded-lg bg-gradient-to-r from-[#FF3BFF] via-[#FF3BFF] to-[#5C24FF] text-white text-lg font-bold tracking-tight touch-manipulation active:opacity-90 shadow-[0_0_30px_rgba(255,59,255,0.3)] border border-white/20 transition-all duration-300 hover:border-white/40"
+                >
+                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-white/30 to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
+                  <div className="relative flex items-center justify-center gap-2">
+                    <span className="group-hover:text-white transition-colors">Get Your Free 7-Day Plan</span>
+                    <motion.div
+                      animate={{ x: [0, 4, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                      className="text-lg"
+                    >
+                      →
+                    </motion.div>
                   </div>
-                </div>
+                </motion.button>
               </div>
           </>
         )}
