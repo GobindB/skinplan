@@ -133,118 +133,83 @@ export const AppStoreSection = () => {
         />
       </Head>
 
-      <section 
-        className="relative py-20 bg-[#0A0A0E] text-white" 
-        aria-label="AI Skincare App Features"
-        itemScope 
-        itemType="https://schema.org/SoftwareApplication"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
+      <section className="relative py-20 bg-[#0A0A0E] text-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
             {/* Left Column - Content */}
-            <div className="text-center lg:text-left">
+            <div className="flex-1 text-center lg:text-left max-w-xl mx-auto lg:mx-0">
               {/* Beta Tag */}
-              <div 
-                className="inline-flex items-center gap-4 px-3 py-1.5 rounded-full bg-[#1A1A1E] border border-white/10 mb-6" 
-                role="status"
-                aria-label="User count status"
-              >
+              <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-[#1A1A1E] border border-white/10 mb-8">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-[#FF3BFF]" aria-hidden="true" />
-                  <div className="hidden sm:flex items-center -space-x-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <div className="flex items-center -space-x-1.5">
                     {betaUsers.map((user, index) => (
-                      <div key={index} className="relative w-6 h-6 rounded-full border-2 border-[#1A1A1E]" aria-hidden="true">
+                      <div key={index} className="relative w-5 h-5 rounded-full border-2 border-[#1A1A1E] overflow-hidden">
                         <Image
                           src={user.image}
-                          alt="Beta user avatar"
+                          alt=""
                           fill
                           className="rounded-full object-cover"
                         />
                       </div>
                     ))}
                   </div>
-                  <span 
-                    className="text-xs font-medium tracking-wide text-white/80"
-                    itemProp="userInteractionCount"
-                  >
+                  <span className="text-sm font-medium whitespace-nowrap">
                     Join 13,214 others in smart skincare planning!
                   </span>
                 </div>
               </div>
 
               {/* Main Headline */}
-              <h1 
-                className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4"
-                itemProp="name"
-              >
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF3BFF] via-[#D94DFF] to-[#5C24FF]">
                   AI-Powered Skincare Planning
                 </span>
                 <span className="block text-white mt-2">
                   Your Smart Beauty Assistant ✨
                 </span>
-              </h1>
+              </h2>
 
-              <p 
-                className="text-lg sm:text-xl text-white/60 mb-8 max-w-xl mx-auto lg:mx-0"
-                itemProp="description"
-              >
-                Experience revolutionary skincare management with AI-driven personalization. Our smart planning system creates the perfect routine for your unique skin needs, tracks progress, and adapts to your skin's changes.
+              <p className="text-lg text-white/60 mb-8">
+                Experience revolutionary skincare management with AI-driven personalization. Our smart planning system creates the perfect routine for your unique skin needs.
               </p>
 
               {/* App Store Buttons */}
-              <div 
-                className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-8" 
-                role="navigation" 
-                aria-label="App download options"
-                itemProp="offers"
-                itemScope
-                itemType="https://schema.org/Offer"
-              >
-                {/* App Store Button */}
-                <button className="flex items-center justify-center sm:justify-start gap-3 px-6 py-3 bg-[#1A1A1E] rounded-lg border border-white/10 hover:bg-[#242428] transition-colors w-full sm:w-auto">
-                  <svg className="w-8 h-8 text-white flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 mb-10">
+                <button className="flex items-center justify-center sm:justify-start gap-3 px-5 py-2.5 bg-[#1A1A1E] rounded-lg border border-white/10 hover:bg-[#242428] transition-colors">
+                  <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
                   </svg>
                   <div className="text-left">
                     <div className="text-xs text-white/60">Coming Soon on</div>
-                    <div className="text-sm font-semibold text-white">App Store</div>
+                    <div className="text-sm font-semibold">App Store</div>
                   </div>
                 </button>
 
-                {/* Play Store Button */}
-                <button className="flex items-center justify-center sm:justify-start gap-3 px-6 py-3 bg-[#1A1A1E] rounded-lg border border-white/10 hover:bg-[#242428] transition-colors w-full sm:w-auto">
-                  <svg className="w-8 h-8 text-white flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <button className="flex items-center justify-center sm:justify-start gap-3 px-5 py-2.5 bg-[#1A1A1E] rounded-lg border border-white/10 hover:bg-[#242428] transition-colors">
+                  <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5ZM16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12ZM20.16 12.86C20.5 13.07 20.75 13.5 20.75 14C20.75 14.5 20.53 14.9 20.18 15.11L17.89 16.5L15.39 14L17.89 11.5L20.16 12.86ZM6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z"/>
                   </svg>
                   <div className="text-left">
                     <div className="text-xs text-white/60">Coming Soon on</div>
-                    <div className="text-sm font-semibold text-white">Play Store</div>
+                    <div className="text-sm font-semibold">Play Store</div>
                   </div>
                 </button>
               </div>
 
               {/* Feature Tags */}
-              <div 
-                className="flex flex-wrap justify-center lg:justify-start gap-2" 
-                role="list" 
-                aria-label="Key features"
-                itemProp="featureList"
-              >
+              <div className="flex flex-wrap justify-center lg:justify-start gap-2 max-w-lg">
                 {[
                   'AI Skincare Planning',
                   'Smart Routine Management',
                   'Progress Tracking',
                   'Personalized Calendar',
                   'Ingredient Analysis',
-                  'Smart Reminders',
-                  'Skin Progress Analytics',
-                  'AI Recommendations'
+                  'Smart Reminders'
                 ].map((tag) => (
                   <div 
                     key={tag}
                     className="px-3 py-1.5 rounded-lg bg-[#1A1A1E] border border-white/10 text-sm text-white/80"
-                    role="listitem"
                   >
                     {tag}
                   </div>
@@ -252,16 +217,11 @@ export const AppStoreSection = () => {
               </div>
             </div>
 
-            {/* Right Column - Testimonials */}
-            <div 
-              className="w-full max-w-md mx-auto lg:max-w-none"
-              itemProp="review"
-              itemScope
-              itemType="https://schema.org/Review"
-            >
-              <div className="bg-[#1A1A1E] rounded-[32px] p-6 sm:p-8 border border-white/10">
+            {/* Right Column - Reviews */}
+            <div className="w-full lg:w-[400px] lg:flex-none">
+              <div className="bg-[#1A1A1E] rounded-2xl p-6 border border-white/10">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-semibold text-white">Smart Skincare Planning Reviews</h2>
+                  <h3 className="text-lg font-semibold">Smart Skincare Planning Reviews</h3>
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
                       <svg
@@ -276,24 +236,19 @@ export const AppStoreSection = () => {
                   </div>
                 </div>
 
-                <div className="space-y-6" role="region" aria-label="User testimonials">
+                <div className="space-y-6">
                   {testimonials.map((testimonial, index) => (
                     <div 
                       key={index}
                       className={`transition-all duration-500 ${
-                        index === activeIndex ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                        index === activeIndex ? 'opacity-100' : 'opacity-0 hidden'
                       }`}
-                      style={{ display: index === activeIndex ? 'block' : 'none' }}
-                      role="tabpanel"
-                      aria-label={`Testimonial from ${testimonial.author}`}
                     >
-                      <div className="bg-[#242428] rounded-2xl p-4 sm:p-6 mb-4">
-                        <blockquote className="text-base sm:text-lg text-white/80">
-                          "{testimonial.text}"
-                        </blockquote>
+                      <div className="bg-[#242428] rounded-xl p-4 mb-4">
+                        <p className="text-base text-white/80 leading-relaxed">"{testimonial.text}"</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="relative w-8 h-8 sm:w-10 sm:h-10">
+                        <div className="relative w-8 h-8">
                           <Image
                             src={testimonial.image}
                             alt={testimonial.author}
@@ -302,10 +257,10 @@ export const AppStoreSection = () => {
                           />
                         </div>
                         <div>
-                          <div className="font-medium text-white text-sm sm:text-base">{testimonial.author}</div>
-                          <div className="text-xs sm:text-sm text-white/60">{testimonial.role}</div>
+                          <div className="font-medium">{testimonial.author}</div>
+                          <div className="text-sm text-white/60">{testimonial.role}</div>
                         </div>
-                        <span className="ml-auto text-xs sm:text-sm text-white/40 px-2 sm:px-3 py-1 rounded-full bg-[#242428] border border-white/5">
+                        <span className="ml-auto text-xs px-2 py-1 rounded-full bg-[#242428] border border-white/5">
                           {testimonial.tag}
                         </span>
                       </div>
@@ -313,16 +268,15 @@ export const AppStoreSection = () => {
                   ))}
                 </div>
 
-                {/* Testimonial Navigation */}
-                <div className="flex items-center justify-center gap-2 mt-6" role="tablist">
+                <div className="flex justify-center gap-1.5 mt-6">
                   {testimonials.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => setActiveIndex(index)}
-                      className={`h-1 rounded-full transition-all duration-300 ${
+                      className={`w-1.5 h-1.5 rounded-full transition-all ${
                         index === activeIndex 
-                          ? 'w-8 bg-white/20' 
-                          : 'w-1.5 bg-white/5 hover:bg-white/10'
+                          ? 'bg-white/20 w-4' 
+                          : 'bg-white/5 hover:bg-white/10'
                       }`}
                       aria-label={`Go to testimonial ${index + 1}`}
                     />
