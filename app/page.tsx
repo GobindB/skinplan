@@ -10,11 +10,14 @@ import { HowItWorks } from './components/HowItWorks';
 import { ComparisonTable } from './components/ComparisonTable';
 import { AppStoreSection } from './components/AppStoreSection';
 import { PricingSection } from './components/PricingSection';
+import CreatePlanView from './components/CreatePlanView';
 
 export default function Page() {
     const [isVisible, setIsVisible] = useState(false);
     const [waitlistCount, setWaitlistCount] = useState(13192);
     const [isLoading, setIsLoading] = useState(true);
+    const [showCreatePlan, setShowCreatePlan] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
 
     useEffect(() => {
         setIsVisible(true);
@@ -28,6 +31,13 @@ export default function Page() {
         return () => clearInterval(interval);
     }, []);
     
+    const handleGetStarted = (email?: string) => {
+        if (email) {
+            setUserEmail(email);
+        }
+        setShowCreatePlan(true);
+    };
+    
     if (isLoading) {
         return (
             <div className="fixed inset-0 bg-[#0A0A0E] flex items-center justify-center">
@@ -38,12 +48,18 @@ export default function Page() {
 
     return (
         <main className="bg-[#0A0A0E]">
-            <Navigation />
-            <HeroSection isVisible={isVisible} waitlistCount={waitlistCount} />
+            <Navigation onGetStarted={() => handleGetStarted()} />
+            <HeroSection isVisible={isVisible} waitlistCount={waitlistCount} onGetStarted={handleGetStarted} />
             <AppStoreSection />
             <PricingSection />
-            <CallToAction waitlistCount={waitlistCount} />
+            <CallToAction waitlistCount={waitlistCount} onGetStarted={handleGetStarted} />
             <Footer />
+            {showCreatePlan && (
+                <CreatePlanView 
+                    onClose={() => setShowCreatePlan(false)} 
+                    initialEmail={userEmail}
+                />
+            )}
         </main>
     );
 }

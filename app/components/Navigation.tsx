@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export function Navigation() {
+interface NavigationProps {
+  onGetStarted: () => void;
+}
+
+export function Navigation({ onGetStarted }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigationItems = [
@@ -36,7 +40,10 @@ export function Navigation() {
                 {item.name}
               </a>
             ))}
-            <button className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] rounded-lg hover:opacity-90 transition-opacity">
+            <button 
+              onClick={onGetStarted}
+              className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] rounded-lg hover:opacity-90 transition-opacity"
+            >
               Get Started
             </button>
           </div>
@@ -79,7 +86,10 @@ export function Navigation() {
               ))}
               <div className="pt-2">
                 <button 
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    onGetStarted();
+                  }}
                   className="w-full px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] rounded-lg hover:opacity-90 transition-opacity"
                 >
                   Get Started

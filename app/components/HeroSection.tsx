@@ -2,13 +2,15 @@ import React from 'react';
 import Image from 'next/image';
 import SkinCareCalendar from './SkinCareCalendar';
 import { EmailSignupForm } from './EmailSignupForm';
+import { motion } from 'framer-motion';
 
 interface HeroSectionProps {
   isVisible: boolean;
   waitlistCount: number;
+  onGetStarted: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCount }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCount, onGetStarted }) => {
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-[#0A0A0E] text-white overflow-hidden py-20 lg:py-0">
       {/* Gradient Orbs */}
@@ -45,7 +47,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
 
             {/* Email Signup Form */}
             <div className="mb-6 w-full max-w-md">
-              <EmailSignupForm waitlistCount={waitlistCount} />
+              <EmailSignupForm waitlistCount={waitlistCount} onGetStarted={onGetStarted} />
             </div>
 
             {/* Satisfaction Guarantee */}
@@ -62,13 +64,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
           {/* Right Column - Calendar */}
           <div className="relative">
             <div className="relative max-w-[380px] mx-auto">
-              {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] opacity-30 blur-2xl -z-10" />
-              
               {/* Calendar Container */}
-              <div className="relative rounded-2xl bg-[#0A0A0E] p-2.5 border border-white/10">
-                <div className="relative rounded-xl overflow-hidden">
+              <div className="group relative rounded-2xl bg-[#0A0A0E] overflow-hidden shadow-2xl shadow-[#FF3BFF]/10 hover:shadow-[#FF3BFF]/20 transition-shadow duration-300">
+                {/* Inner Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#FF3BFF]/5 via-transparent to-[#5C24FF]/5" />
+                
+                <div className="relative">
                   <SkinCareCalendar />
+
+                  {/* Interaction Hint */}
+                  <div className="absolute inset-x-0 bottom-0 pointer-events-none">
+                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0A0E] to-transparent" />
+                    <div className="relative flex items-end justify-center h-32 transition-opacity duration-300 ease-in-out group-hover:opacity-0">
+                      <div className="flex items-center gap-2 text-white/60 text-sm pb-4">
+                        <motion.div
+                          animate={{ y: [0, -4, 0] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                          ↑
+                        </motion.div>
+                        <span>Try it out</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

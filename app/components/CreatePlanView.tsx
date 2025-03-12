@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   XMarkIcon,
@@ -79,15 +79,38 @@ const routineLevels = [
   { id: 'advanced', name: 'Advanced', icon: '🌳', description: 'Experienced (8+ steps)' }
 ];
 
-export default function CreatePlanView({ onClose }: { onClose: () => void }) {
+export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose: () => void; initialEmail?: string }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     skinType: '',
     concerns: [] as string[],
     sensitivities: [] as string[],
     routineLevel: '',
-    email: ''
+    email: initialEmail
   });
+
+  // Handle click outside
+  const modalRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
+  useEffect(() => {
+    if (currentStep === steps.length - 1 && initialEmail) {
+      const syntheticEvent = {
+        preventDefault: () => {},
+      } as React.FormEvent;
+      handleSubmit(syntheticEvent);
+    }
+  }, [currentStep]);
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -101,12 +124,39 @@ export default function CreatePlanView({ onClose }: { onClose: () => void }) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the data to your API
-    console.log('Form submitted:', formData);
-    // Show success message and close
-    onClose();
+    
+    // Format the selections as a readable string
+    const notes = [
+      `Skin Type: ${skinTypes.find(t => t.id === formData.skinType)?.name || formData.skinType}`,
+      `Concerns: ${formData.concerns.map(c => skinConcerns.find(sc => sc.id === c)?.name).join(', ')}`,
+      `Sensitivities: ${formData.sensitivities.map(s => sensitivities.find(ss => ss.id === s)?.name).join(', ')}`,
+      `Routine Level: ${routineLevels.find(r => r.id === formData.routineLevel)?.name || formData.routineLevel}`
+    ].join('\n');
+
+    try {
+      const response = await fetch('/api/submit-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          notes: notes
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      // Show success message and close
+      onClose();
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // You might want to show an error message to the user here
+    }
   };
 
   const renderStepContent = () => {
@@ -265,13 +315,20 @@ export default function CreatePlanView({ onClose }: { onClose: () => void }) {
             </div>
             
             <div>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                className="w-full px-4 py-3 rounded-lg bg-[#1A1A1E] border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-[#FF3BFF]"
-              />
+              <div className="space-y-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                  className="w-full px-4 py-3 rounded-lg bg-[#1A1A1E] border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#FF3BFF] focus:border-transparent transition-colors"
+                />
+                {initialEmail && formData.email === initialEmail && (
+                  <p className="text-xs text-white/60">
+                    You can use a different email if you'd like
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         );
@@ -290,6 +347,7 @@ export default function CreatePlanView({ onClose }: { onClose: () => void }) {
         className="fixed inset-0 bg-[#0A0A0E]/90 backdrop-blur-sm z-50 flex items-center justify-center"
       >
         <motion.div
+          ref={modalRef}
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
