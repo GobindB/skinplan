@@ -73,9 +73,17 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-white/40">
-              © 2024 SkinPlan. All rights reserved.
-            </p>
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6">
+              <p className="text-sm text-white/40">
+                © 2024 SkinPlan. All rights reserved.
+              </p>
+              <p className="text-sm text-white/40">
+                Reach us at{' '}
+                <a href="mailto:support@skinplan.app" className="text-white/60 hover:text-white transition-colors">
+                  support@skinplan.app
+                </a>
+              </p>
+            </div>
             <div className="flex items-center gap-6">
               <Link href="/privacy-policy" className="text-sm text-white/40 hover:text-white/60 transition-colors">
                 Privacy Policy
