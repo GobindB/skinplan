@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export const Footer = () => {
   return (
@@ -61,8 +62,8 @@ export const Footer = () => {
             <div>
               <h4 className="text-sm font-medium text-white/80 mb-4">Legal</h4>
               <ul className="space-y-3">
-                <FooterLink href="#">Privacy</FooterLink>
-                <FooterLink href="#">Terms</FooterLink>
+                <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
+                <FooterLink href="/terms-of-service">Terms of Service</FooterLink>
                 <FooterLink href="#">Security</FooterLink>
               </ul>
             </div>
@@ -76,12 +77,12 @@ export const Footer = () => {
               © 2024 SkinPlan. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-sm text-white/40 hover:text-white/60 transition-colors">
+              <Link href="/privacy-policy" className="text-sm text-white/40 hover:text-white/60 transition-colors">
                 Privacy Policy
-              </a>
-              <a href="#" className="text-sm text-white/40 hover:text-white/60 transition-colors">
+              </Link>
+              <Link href="/terms-of-service" className="text-sm text-white/40 hover:text-white/60 transition-colors">
                 Terms of Service
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -111,12 +112,21 @@ const FooterLink: React.FC<{ href: string; children: React.ReactNode }> = ({
   children,
 }) => (
   <li>
-    <a
-      href={href}
-      className="text-sm text-white/60 hover:text-white transition-colors"
-    >
-      {children}
-    </a>
+    {href.startsWith('/') ? (
+      <Link
+        href={href}
+        className="text-sm text-white/60 hover:text-white transition-colors"
+      >
+        {children}
+      </Link>
+    ) : (
+      <a
+        href={href}
+        className="text-sm text-white/60 hover:text-white transition-colors"
+      >
+        {children}
+      </a>
+    )}
   </li>
 );
 

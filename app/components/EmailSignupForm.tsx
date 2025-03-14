@@ -62,7 +62,7 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount,
       <form onSubmit={handleSubmit} className="relative">
         <input
           type="email"
-          placeholder="Enter your email"
+          placeholder="Enter your email to get early access"
           className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 pr-32 focus:outline-none focus:ring-2 focus:ring-[#FF3BFF] focus:border-transparent transition-colors"
           value={email}
           onChange={handleEmailChange}
@@ -96,7 +96,7 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount,
         <div className="mt-2 text-red-500 text-sm">{errorMessage}</div>
       )}
       <p className="mt-2 text-sm text-white/60">
-        Join {waitlistCount.toLocaleString()} others on the waitlist
+        Join {waitlistCount.toLocaleString()} other early access users
       </p>
     </div>
   );

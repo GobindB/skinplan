@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { isValidEmail, getEmailValidationError } from '../utils/validation';
-import { PrivacyPolicyLink } from './PrivacyPolicyLink';
+import { LegalLinks } from './LegalLinks';
 import { 
   XMarkIcon,
   ChevronRightIcon,
@@ -345,7 +345,7 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
                   </p>
                 )}
                 <div className="mt-2 text-center">
-                  <PrivacyPolicyLink />
+                  <LegalLinks />
                 </div>
               </div>
             </div>

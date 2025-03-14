@@ -19,7 +19,11 @@ const features = {
   ]
 };
 
-export const PricingSection = () => {
+interface PricingSectionProps {
+  onGetStarted: () => void;
+}
+
+export const PricingSection: React.FC<PricingSectionProps> = ({ onGetStarted }) => {
   return (
     <section id="pricing" className="relative py-20 bg-gradient-to-b from-[#13131A] via-[#0F0F13] to-[#0A0A0E] text-white">
       {/* Gradient Orbs */}
@@ -84,7 +88,10 @@ export const PricingSection = () => {
               ))}
             </ul>
 
-            <button className="w-full py-3 px-6 rounded-xl bg-[#242428] hover:bg-[#2A2A2E] border border-white/10 text-white font-medium transition-colors">
+            <button 
+              onClick={onGetStarted}
+              className="w-full py-3 px-6 rounded-xl bg-[#242428] hover:bg-[#2A2A2E] border border-white/10 text-white font-medium transition-colors"
+            >
               Get Started Free
             </button>
           </div>
@@ -116,7 +123,10 @@ export const PricingSection = () => {
               ))}
             </ul>
 
-            <button className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] hover:opacity-90 text-white font-medium transition-opacity">
+            <button 
+              onClick={onGetStarted}
+              className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] hover:opacity-90 text-white font-medium transition-opacity"
+            >
               Upgrade to Premium
             </button>
           </div>

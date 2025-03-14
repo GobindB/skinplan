@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { isValidEmail, getEmailValidationError } from '../utils/validation';
-import { PrivacyPolicyLink } from './PrivacyPolicyLink';
+import { LegalLinks } from './LegalLinks';
 
 interface CallToActionProps {
   waitlistCount: number;
@@ -243,9 +243,9 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
                     </div>
                   </div>
 
-                  {/* Privacy Policy Link */}
+                  {/* Legal Links */}
                   <div className="mt-4 text-center">
-                    <PrivacyPolicyLink />
+                    <LegalLinks />
                   </div>
                 </form>
               </div>

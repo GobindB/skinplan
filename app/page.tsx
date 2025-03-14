@@ -51,7 +51,7 @@ export default function Page() {
             <Navigation onGetStarted={() => handleGetStarted()} />
             <HeroSection isVisible={isVisible} waitlistCount={waitlistCount} onGetStarted={handleGetStarted} />
             <AppStoreSection />
-            <PricingSection />
+            <PricingSection onGetStarted={() => handleGetStarted()} />
             <CallToAction waitlistCount={waitlistCount} onGetStarted={handleGetStarted} />
             <Footer />
             {showCreatePlan && (
