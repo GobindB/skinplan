@@ -3,6 +3,7 @@ import Image from 'next/image';
 import SkinCareCalendar from './SkinCareCalendar';
 import { EmailSignupForm } from './EmailSignupForm';
 import { motion } from 'framer-motion';
+import { PrivacyPolicyLink } from './PrivacyPolicyLink';
 
 interface HeroSectionProps {
   isVisible: boolean;
@@ -68,8 +69,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
             </div>
 
             {/* Email Signup Form */}
-            <div className="mb-6 w-full max-w-md">
+            <div className="mb-4 w-full max-w-md">
               <EmailSignupForm waitlistCount={waitlistCount} onGetStarted={onGetStarted} />
+            </div>
+
+            {/* Privacy Policy Link */}
+            <div className="mb-6">
+              <PrivacyPolicyLink />
             </div>
 
             {/* Satisfaction Guarantee */}

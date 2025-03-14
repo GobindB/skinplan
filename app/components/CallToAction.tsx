@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { isValidEmail, getEmailValidationError } from '../utils/validation';
+import { PrivacyPolicyLink } from './PrivacyPolicyLink';
 
 interface CallToActionProps {
   waitlistCount: number;
@@ -240,6 +241,11 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
                       </svg>
                       Privacy Protected
                     </div>
+                  </div>
+
+                  {/* Privacy Policy Link */}
+                  <div className="mt-4 text-center">
+                    <PrivacyPolicyLink />
                   </div>
                 </form>
               </div>
