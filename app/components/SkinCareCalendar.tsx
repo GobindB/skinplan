@@ -695,7 +695,7 @@ export default function SkinCareCalendar() {
       {/* Main Calendar Container */}
       <div className="relative bg-white/95 backdrop-blur-sm rounded-[32px] shadow-[0_8px_32px_-4px_rgba(139,69,19,0.1)] border border-[#E8C5B0]/20 overflow-hidden flex flex-col h-[700px]">
         {/* Header with Tabs */}
-        <div className="bg-gradient-to-b from-[#2C1810] to-[#3D2415] relative z-10 flex-none rounded-b-[32px] shadow-lg">
+        <div className="bg-gradient-to-b from-[#2C1810] via-[#3D2415] to-[#4A2B1A] relative z-10 flex-none rounded-b-[32px] shadow-lg">
           {/* Soft Glow Effect */}
           <div className="absolute inset-0 bg-gradient-to-tr from-[#E8855B]/20 to-transparent opacity-50" />
           
@@ -704,9 +704,9 @@ export default function SkinCareCalendar() {
               <h1 className="text-xl font-medium text-[#FAF3EB] tracking-tight">Your Skincare Journey</h1>
               <p className="text-sm text-[#E8C5B0] mt-1 tracking-wide">In your pocket</p>
               {/* Interactive Demo Badge */}
-              <div className="mt-2.5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#8B4513]/10 border border-[#8B4513]/20 backdrop-blur-sm">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#E8855B] animate-pulse" />
-                <span className="text-xs text-[#E8855B] font-medium tracking-wide">Interactive Preview</span>
+              <div className="mt-2.5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#4CAF50]/20 border border-[#4CAF50]/30 backdrop-blur-sm">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#4CAF50] animate-pulse" />
+                <span className="text-xs text-[#4CAF50] font-medium tracking-wide">Try this interactive preview</span>
               </div>
             </div>
           </div>
