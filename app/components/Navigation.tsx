@@ -12,7 +12,7 @@ export function Navigation({ onGetStarted }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigationItems = [
-    { name: 'How it Works', href: '#pricing' },
+    { name: 'How it Works', href: '#how-it-works' },
     { name: 'Pricing', href: '#pricing' },
     { name: 'App Store', href: '#app-store' },
   ];

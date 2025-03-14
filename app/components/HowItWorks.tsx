@@ -27,7 +27,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ waitlistCount }) => {
   };
 
   return (
-    <section className="relative py-32 bg-[#0A0A0E] text-white overflow-hidden">
+    <section id="how-it-works" className="relative py-32 bg-[#0A0A0E] text-white overflow-hidden">
       {/* Section Transition - Top */}
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0A0A0E] via-[#0A0A0E] to-transparent pointer-events-none" />
 
