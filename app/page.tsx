@@ -40,8 +40,8 @@ export default function Page() {
     
     if (isLoading) {
         return (
-            <div className="fixed inset-0 bg-[#0A0A0E] flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-[#FF3BFF] animate-ping" />
+            <div className="fixed inset-0 bg-[#FFF1E6] flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-[#E68A6C] animate-ping" />
             </div>
         );
     }
