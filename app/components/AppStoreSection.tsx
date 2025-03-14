@@ -133,7 +133,7 @@ export const AppStoreSection = () => {
         />
       </Head>
 
-      <section className="relative py-20 bg-[#0A0A0E] text-white">
+      <section id="app-store" className="relative py-20 bg-[#0A0A0E] text-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
             {/* Left Column - Content */}
