@@ -136,15 +136,16 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
       return;
     }
 
-    // Format the selections as a readable string
-    const notes = [
-      `Skin Type: ${skinTypes.find(t => t.id === formData.skinType)?.name || formData.skinType}`,
-      `Concerns: ${formData.concerns.map(c => skinConcerns.find(sc => sc.id === c)?.name).join(', ')}`,
-      `Sensitivities: ${formData.sensitivities.map(s => sensitivities.find(ss => ss.id === s)?.name).join(', ')}`,
-      `Routine Level: ${routineLevels.find(r => r.id === formData.routineLevel)?.name || formData.routineLevel}`
-    ].join('\n');
-
     try {
+      console.log('Submitting form data:', {
+        email: formData.email,
+        skinType: formData.skinType,
+        selectedConcerns: formData.concerns,
+        sensitivities: formData.sensitivities,
+        currentProducts: [],
+        ethnicity: ''
+      });
+
       const response = await fetch('/api/submit-email', {
         method: 'POST',
         headers: {
@@ -152,12 +153,19 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
         },
         body: JSON.stringify({
           email: formData.email,
-          notes: notes
+          skinType: formData.skinType,
+          selectedConcerns: formData.concerns,
+          sensitivities: formData.sensitivities,
+          currentProducts: [],
+          ethnicity: ''
         }),
       });
 
+      const data = await response.json();
+      console.log('API response:', data);
+
       if (!response.ok) {
-        throw new Error('Failed to submit form');
+        throw new Error(data.message || 'Failed to submit form');
       }
 
       // Show success message and close
@@ -191,18 +199,18 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
                 }}
                 className={`p-4 rounded-xl border ${
                   formData.skinType === type.id
-                    ? 'border-[#FF3BFF] bg-[#FF3BFF]/10'
-                    : 'border-white/10 hover:border-white/20'
+                    ? 'border-[#E8855B] bg-[#E8D5C8]/30'
+                    : 'border-[#E8C5B0]/20 hover:border-[#E8C5B0]'
                 } flex items-center gap-4`}
               >
-                <div className="w-10 h-10 rounded-lg bg-[#1A1A1E] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-[#5C3D2E]">
                   {type.icon}
                 </div>
                 <div className="text-left">
-                  <h4 className="text-sm font-medium">{type.name}</h4>
-                  <p className="text-xs text-white/60">{type.description}</p>
+                  <h4 className="text-sm font-medium text-[#2C1810]">{type.name}</h4>
+                  <p className="text-xs text-[#86604A]">{type.description}</p>
                 </div>
-                <ChevronRightIcon className="w-4 h-4 ml-auto" />
+                <ChevronRightIcon className="w-4 h-4 ml-auto text-[#5C3D2E]" />
               </motion.button>
             ))}
           </div>
@@ -226,14 +234,14 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
                 }}
                 className={`p-4 rounded-xl border ${
                   formData.concerns.includes(concern.id)
-                    ? 'border-[#FF3BFF] bg-[#FF3BFF]/10'
-                    : 'border-white/10 hover:border-white/20'
+                    ? 'border-[#E8855B] bg-[#E8D5C8]/30'
+                    : 'border-[#E8C5B0]/20 hover:border-[#E8C5B0]'
                 } flex flex-col items-center gap-2 text-center`}
               >
                 <span className="text-2xl">{concern.icon}</span>
                 <div>
-                  <h4 className="text-sm font-medium">{concern.name}</h4>
-                  <p className="text-xs text-white/60">{concern.description}</p>
+                  <h4 className="text-sm font-medium text-[#2C1810]">{concern.name}</h4>
+                  <p className="text-xs text-[#86604A]">{concern.description}</p>
                 </div>
               </motion.button>
             ))}
@@ -249,27 +257,23 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  if (sensitivity.id === 'none') {
-                    setFormData(prev => ({ ...prev, sensitivities: ['none'] }));
-                  } else {
-                    setFormData(prev => ({
-                      ...prev,
-                      sensitivities: prev.sensitivities.includes(sensitivity.id)
-                        ? prev.sensitivities.filter(id => id !== sensitivity.id)
-                        : [...prev.sensitivities.filter(id => id !== 'none'), sensitivity.id]
-                    }));
-                  }
+                  setFormData(prev => ({
+                    ...prev,
+                    sensitivities: prev.sensitivities.includes(sensitivity.id)
+                      ? prev.sensitivities.filter(id => id !== sensitivity.id)
+                      : [...prev.sensitivities, sensitivity.id]
+                  }));
                 }}
                 className={`p-4 rounded-xl border ${
                   formData.sensitivities.includes(sensitivity.id)
-                    ? 'border-[#FF3BFF] bg-[#FF3BFF]/10'
-                    : 'border-white/10 hover:border-white/20'
+                    ? 'border-[#E8855B] bg-[#E8D5C8]/30'
+                    : 'border-[#E8C5B0]/20 hover:border-[#E8C5B0]'
                 } flex flex-col items-center gap-2 text-center`}
               >
                 <span className="text-2xl">{sensitivity.icon}</span>
                 <div>
-                  <h4 className="text-sm font-medium">{sensitivity.name}</h4>
-                  <p className="text-xs text-white/60">{sensitivity.description}</p>
+                  <h4 className="text-sm font-medium text-[#2C1810]">{sensitivity.name}</h4>
+                  <p className="text-xs text-[#86604A]">{sensitivity.description}</p>
                 </div>
               </motion.button>
             ))}
@@ -290,16 +294,18 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
                 }}
                 className={`p-4 rounded-xl border ${
                   formData.routineLevel === level.id
-                    ? 'border-[#FF3BFF] bg-[#FF3BFF]/10'
-                    : 'border-white/10 hover:border-white/20'
+                    ? 'border-[#E8855B] bg-[#E8D5C8]/30'
+                    : 'border-[#E8C5B0]/20 hover:border-[#E8C5B0]'
                 } flex items-center gap-4`}
               >
-                <span className="text-2xl">{level.icon}</span>
-                <div className="text-left">
-                  <h4 className="text-sm font-medium">{level.name}</h4>
-                  <p className="text-xs text-white/60">{level.description}</p>
+                <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-[#5C3D2E]">
+                  {level.icon}
                 </div>
-                <ChevronRightIcon className="w-4 h-4 ml-auto" />
+                <div className="text-left">
+                  <h4 className="text-sm font-medium text-[#2C1810]">{level.name}</h4>
+                  <p className="text-xs text-[#86604A]">{level.description}</p>
+                </div>
+                <ChevronRightIcon className="w-4 h-4 ml-auto text-[#5C3D2E]" />
               </motion.button>
             ))}
           </div>
@@ -307,47 +313,23 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
 
       case 4:
         return (
-          <div className="space-y-6">
-            <div className="p-4 rounded-xl bg-[#1A1A1E] border border-white/10">
-              <h4 className="text-sm font-medium mb-2">What's included:</h4>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2 text-sm text-white/60">
-                  <SparklesIcon className="w-4 h-4 text-[#FF3BFF]" />
-                  Personalized morning & evening routines
-                </li>
-                <li className="flex items-center gap-2 text-sm text-white/60">
-                  <BeakerIcon className="w-4 h-4 text-[#5C24FF]" />
-                  Product recommendations based on your skin
-                </li>
-                <li className="flex items-center gap-2 text-sm text-white/60">
-                  <CloudIcon className="w-4 h-4 text-[#FF3BFF]" />
-                  Weather-based routine adjustments
-                </li>
-                <li className="flex items-center gap-2 text-sm text-white/60">
-                  <FireIcon className="w-4 h-4 text-[#5C24FF]" />
-                  Tips for your specific concerns
-                </li>
-              </ul>
-            </div>
-            
+          <div className="space-y-4">
             <div>
-              <div className="space-y-2">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleEmailChange}
-                  className="w-full px-4 py-3 rounded-lg bg-[#1A1A1E] border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#FF3BFF] focus:border-transparent transition-colors"
-                />
-                {errorMessage && (
-                  <p className="text-red-500 text-sm mt-2">
-                    {errorMessage}
-                  </p>
-                )}
-                <div className="mt-2 text-center">
-                  <LegalLinks />
-                </div>
-              </div>
+              <label htmlFor="email" className="block text-sm font-medium text-[#5C3D2E] mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={handleEmailChange}
+                placeholder="you@example.com"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-[#E8C5B0]/20 text-[#2C1810] placeholder-[#86604A]/40 focus:outline-none focus:ring-2 focus:ring-[#E8855B] focus:border-transparent transition-colors"
+                required
+              />
+              {errorMessage && (
+                <p className="mt-2 text-sm text-red-500">{errorMessage}</p>
+              )}
             </div>
           </div>
         );
@@ -358,102 +340,90 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
   };
 
   return (
-    <AnimatePresence>
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-[#0A0A0E]/90 backdrop-blur-sm z-50 flex items-center justify-center"
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <motion.div
+        ref={modalRef}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="relative w-full max-w-2xl bg-[#FFF1E6] rounded-2xl shadow-xl overflow-hidden"
       >
-        <motion.div
-          ref={modalRef}
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.95, opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="relative w-full max-w-[600px] max-h-[90vh] bg-[#0A0A0E] rounded-2xl border border-white/10 overflow-hidden"
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-[#E8D5C8]/30 transition-colors"
         >
-          {/* Header */}
-          <div className="flex-none p-4 border-b border-white/10">
-            <div className="flex items-center justify-between">
+          <XMarkIcon className="w-5 h-5 text-[#5C3D2E]" />
+        </button>
+
+        {/* Header */}
+        <div className="p-6 border-b border-[#E8C5B0]/20">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] flex items-center justify-center">
+              <SparklesIcon className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-xl font-semibold text-[#2C1810]">Create Your Plan</h2>
+          </div>
+          <p className="text-[#86604A]">
+            {steps[currentStep].description}
+          </p>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="h-1 bg-[#E8D5C8]/30">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+            className="h-full bg-gradient-to-r from-[#E68A6C] to-[#B86B4C]"
+          />
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+          <div className="mb-6">
+            <h3 className="text-lg font-medium text-[#2C1810] mb-2">
+              {steps[currentStep].title}
+            </h3>
+            <p className="text-[#86604A]">
+              {steps[currentStep].description}
+            </p>
+          </div>
+
+          {renderStepContent()}
+
+          {/* Navigation */}
+          <div className="mt-8 flex justify-between items-center">
+            {currentStep > 0 && (
               <button
-                onClick={currentStep === 0 ? onClose : handleBack}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10"
+                onClick={handleBack}
+                className="px-4 py-2 text-[#5C3D2E] hover:text-[#2C1810] transition-colors"
               >
-                {currentStep === 0 ? (
-                  <XMarkIcon className="w-5 h-5" />
-                ) : (
-                  <ChevronRightIcon className="w-5 h-5 rotate-180" />
-                )}
+                Back
               </button>
-              <div className="flex gap-1">
-                {steps.map((_, i) => (
-                  <div
-                    key={i}
-                    className={`w-8 h-1 rounded-full transition-colors ${
-                      i === currentStep
-                        ? 'bg-[#FF3BFF]'
-                        : i < currentStep
-                        ? 'bg-white/20'
-                        : 'bg-white/5'
-                    }`}
-                  />
-                ))}
-              </div>
-              <div className="w-8 h-8" /> {/* Spacer */}
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="overflow-y-auto" style={{ maxHeight: 'calc(90vh - 140px)' }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentStep}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.2 }}
-                className="p-6"
+            )}
+            {currentStep < steps.length - 1 ? (
+              <button
+                onClick={handleNext}
+                className="ml-auto px-6 py-2 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] text-white font-medium hover:opacity-90 transition-opacity shadow-lg shadow-[#E8855B]/25"
               >
-                <div className="mb-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-2xl">{steps[currentStep].emoji}</span>
-                    <h2 className="text-xl font-medium">{steps[currentStep].title}</h2>
-                  </div>
-                  <p className="text-sm text-white/60">{steps[currentStep].description}</p>
-                </div>
-
-                <div className="space-y-4">
-                  {renderStepContent()}
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                Next
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                className="ml-auto px-6 py-2 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] text-white font-medium hover:opacity-90 transition-opacity shadow-lg shadow-[#E8855B]/25"
+              >
+                Create Plan
+              </button>
+            )}
           </div>
+        </div>
 
-          {/* Footer */}
-          {(currentStep === steps.length - 1 || currentStep === 1 || currentStep === 2) && (
-            <div className="flex-none p-4 border-t border-white/10 bg-gradient-to-t from-[#0A0A0E] via-[#0A0A0E]/80 to-transparent">
-              {currentStep === steps.length - 1 ? (
-                <button
-                  onClick={handleSubmit}
-                  className="w-full py-3 rounded-lg bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-white font-medium disabled:opacity-50"
-                >
-                  Get Your Free Plan →
-                </button>
-              ) : (
-                <button
-                  onClick={handleNext}
-                  disabled={(currentStep === 1 && formData.concerns.length === 0) || 
-                           (currentStep === 2 && formData.sensitivities.length === 0)}
-                  className="w-full py-3 rounded-lg bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-white font-medium disabled:opacity-50"
-                >
-                  Continue →
-                </button>
-              )}
-            </div>
-          )}
-        </motion.div>
+        {/* Footer */}
+        <div className="p-6 bg-[#E8D5C8]/30 border-t border-[#E8C5B0]/20">
+          <LegalLinks />
+        </div>
       </motion.div>
-    </AnimatePresence>
+    </div>
   );
 }

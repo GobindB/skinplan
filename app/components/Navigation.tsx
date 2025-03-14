@@ -18,12 +18,12 @@ export function Navigation({ onGetStarted }: NavigationProps) {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0E]/80 backdrop-blur-md border-b border-white/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FFF1E6]/95 backdrop-blur-md border-b border-[#E8D5C8]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <span className="text-xl font-bold bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-transparent bg-clip-text">
+            <span className="text-xl font-bold bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] text-transparent bg-clip-text">
               SkinPlan
             </span>
           </div>
@@ -34,14 +34,14 @@ export function Navigation({ onGetStarted }: NavigationProps) {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-sm text-white/60 hover:text-white transition-colors"
+                className="text-sm text-[#86604A] hover:text-[#5C3D2E] transition-colors"
               >
                 {item.name}
               </a>
             ))}
             <button 
               onClick={onGetStarted}
-              className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] rounded-lg hover:opacity-90 transition-opacity"
+              className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] rounded-lg hover:opacity-90 transition-opacity"
             >
               Get Started
             </button>
@@ -51,7 +51,7 @@ export function Navigation({ onGetStarted }: NavigationProps) {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+              className="p-2 rounded-lg text-[#86604A] hover:text-[#5C3D2E] hover:bg-[#E8D5C8]/20 transition-colors"
             >
               {isOpen ? (
                 <XMarkIcon className="h-6 w-6" />
@@ -70,15 +70,15 @@ export function Navigation({ onGetStarted }: NavigationProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-white/10"
+            className="md:hidden border-t border-[#E8D5C8]"
           >
-            <div className="px-4 pt-2 pb-3 space-y-1 bg-[#0A0A0E]">
+            <div className="px-4 pt-2 pb-3 space-y-1 bg-[#FFF1E6]">
               {navigationItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 text-base text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                  className="block px-3 py-2 text-base text-[#86604A] hover:text-[#5C3D2E] hover:bg-[#E8D5C8]/20 rounded-lg transition-colors"
                 >
                   {item.name}
                 </a>
@@ -89,7 +89,7 @@ export function Navigation({ onGetStarted }: NavigationProps) {
                     setIsOpen(false);
                     onGetStarted();
                   }}
-                  className="w-full px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] rounded-lg hover:opacity-90 transition-opacity"
+                  className="w-full px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] rounded-lg hover:opacity-90 transition-opacity"
                 >
                   Get Started
                 </button>

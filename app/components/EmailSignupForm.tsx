@@ -63,14 +63,14 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount,
         <input
           type="email"
           placeholder="Enter your email to get early access"
-          className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 pr-32 focus:outline-none focus:ring-2 focus:ring-[#FF3BFF] focus:border-transparent transition-colors"
+          className="w-full px-4 py-3 rounded-xl bg-white border border-[#E8D5C8] text-[#5C3D2E] placeholder-[#86604A]/60 pr-32 focus:outline-none focus:ring-2 focus:ring-[#E68A6C] focus:border-transparent transition-colors"
           value={email}
           onChange={handleEmailChange}
           required
         />
         <button
           type="submit"
-          className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-lg bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-lg bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           {submitStatus === 'loading' ? (
             <div className="flex items-center gap-2">
@@ -95,7 +95,7 @@ export const EmailSignupForm: React.FC<EmailSignupFormProps> = ({ waitlistCount,
       {errorMessage && (
         <div className="mt-2 text-red-500 text-sm">{errorMessage}</div>
       )}
-      <p className="mt-2 text-sm text-white/60">
+      <p className="mt-2 text-sm text-[#86604A]">
         Join {waitlistCount.toLocaleString()} other early access users
       </p>
     </div>

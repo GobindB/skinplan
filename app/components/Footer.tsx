@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 export const Footer = () => {
   return (
-    <footer className="relative bg-[#0A0A0E] text-white overflow-hidden">
+    <footer className="relative bg-[#FFF1E6] text-[#2C1810] overflow-hidden">
       {/* Gradient Orb */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] rounded-full bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] opacity-[0.07] blur-[120px]" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] rounded-full bg-gradient-to-r from-[#E8C5B0] to-[#FFD6C4] opacity-[0.15] blur-[120px]" />
       </div>
 
       {/* Main Content */}
@@ -15,14 +15,14 @@ export const Footer = () => {
           {/* Brand Column */}
           <div className="md:col-span-4">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               </div>
-              <span className="text-xl font-semibold tracking-tight">SkinPlan</span>
+              <span className="text-xl font-semibold tracking-tight text-[#2C1810]">SkinPlan</span>
             </div>
-            <p className="text-white/60 mb-6">
+            <p className="text-[#86604A] mb-6">
               Your personalized skincare journey powered by AI. Get a tailored routine that evolves with your skin.
             </p>
             <div className="flex gap-4">
@@ -42,7 +42,7 @@ export const Footer = () => {
           {/* Links Columns */}
           <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8">
             <div>
-              <h4 className="text-sm font-medium text-white/80 mb-4">Product</h4>
+              <h4 className="text-sm font-medium text-[#5C3D2E] mb-4">Product</h4>
               <ul className="space-y-3">
                 <FooterLink href="#">Features</FooterLink>
                 <FooterLink href="#">How it Works</FooterLink>
@@ -51,7 +51,7 @@ export const Footer = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-sm font-medium text-white/80 mb-4">Company</h4>
+              <h4 className="text-sm font-medium text-[#5C3D2E] mb-4">Company</h4>
               <ul className="space-y-3">
                 <FooterLink href="#">About</FooterLink>
                 <FooterLink href="#">Blog</FooterLink>
@@ -60,7 +60,7 @@ export const Footer = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-sm font-medium text-white/80 mb-4">Legal</h4>
+              <h4 className="text-sm font-medium text-[#5C3D2E] mb-4">Legal</h4>
               <ul className="space-y-3">
                 <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
                 <FooterLink href="/terms-of-service">Terms of Service</FooterLink>
@@ -71,24 +71,24 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10">
+        <div className="pt-8 border-t border-[#E8C5B0]/20">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6">
-              <p className="text-sm text-white/40">
+              <p className="text-sm text-[#86604A]">
                 © 2024 SkinPlan. All rights reserved.
               </p>
-              <p className="text-sm text-white/40">
+              <p className="text-sm text-[#86604A]">
                 Reach us at{' '}
-                <a href="mailto:support@skinplan.app" className="text-white/60 hover:text-white transition-colors">
+                <a href="mailto:support@skinplan.app" className="text-[#5C3D2E] hover:text-[#2C1810] transition-colors">
                   support@skinplan.app
                 </a>
               </p>
             </div>
             <div className="flex items-center gap-6">
-              <Link href="/privacy-policy" className="text-sm text-white/40 hover:text-white/60 transition-colors">
+              <Link href="/privacy-policy" className="text-sm text-[#86604A] hover:text-[#5C3D2E] transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="/terms-of-service" className="text-sm text-white/40 hover:text-white/60 transition-colors">
+              <Link href="/terms-of-service" className="text-sm text-[#86604A] hover:text-[#5C3D2E] transition-colors">
                 Terms of Service
               </Link>
             </div>
@@ -108,7 +108,7 @@ interface SocialLinkProps {
 const SocialLink: React.FC<SocialLinkProps> = ({ href, icon, label }) => (
   <a
     href={href}
-    className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/60 hover:text-white transition-all"
+    className="w-10 h-10 rounded-xl bg-[#E8D5C8]/30 hover:bg-[#E8D5C8]/50 border border-[#E8C5B0] flex items-center justify-center text-[#5C3D2E] hover:text-[#2C1810] transition-all"
     aria-label={label}
   >
     {icon}
@@ -123,14 +123,14 @@ const FooterLink: React.FC<{ href: string; children: React.ReactNode }> = ({
     {href.startsWith('/') ? (
       <Link
         href={href}
-        className="text-sm text-white/60 hover:text-white transition-colors"
+        className="text-sm text-[#86604A] hover:text-[#5C3D2E] transition-colors"
       >
         {children}
       </Link>
     ) : (
       <a
         href={href}
-        className="text-sm text-white/60 hover:text-white transition-colors"
+        className="text-sm text-[#86604A] hover:text-[#5C3D2E] transition-colors"
       >
         {children}
       </a>
