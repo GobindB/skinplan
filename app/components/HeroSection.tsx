@@ -93,10 +93,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
           <div className="relative">
             <div className="relative max-w-[380px] mx-auto">
               {/* Calendar Container */}
-              <div className="group relative rounded-2xl bg-white overflow-hidden shadow-2xl shadow-[#E68A6C]/10 hover:shadow-[#E68A6C]/20 transition-shadow duration-300">
-                {/* Inner Glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#E68A6C]/5 via-transparent to-[#B86B4C]/5" />
-                
+              <div className="group relative rounded-2xl overflow-hidden">
                 <div className="relative">
                   <SkinCareCalendar />
                 </div>
