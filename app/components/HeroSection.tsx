@@ -27,7 +27,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
             {/* Early Access Beta Badge */}
             <div className="mb-8">
               <span className="px-3 py-1 text-xs font-medium text-[#B86B4C] bg-[#E68A6C]/10 rounded-full">
-                Early Access Beta
+              🌱   Early Access Beta  
               </span>
             </div>
 
@@ -95,7 +95,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
               {/* Calendar Container */}
               <div className="group relative rounded-2xl overflow-hidden">
                 <div className="relative">
-                  <SkinCareCalendar />
+                  <SkinCareCalendar onGetStarted={onGetStarted} />
                 </div>
               </div>
             </div>

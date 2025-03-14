@@ -629,7 +629,11 @@ interface CalendarDay {
   isToday?: boolean;
 }
 
-export default function SkinCareCalendar() {
+interface SkinCareCalendarProps {
+  onGetStarted: () => void;
+}
+
+export default function SkinCareCalendar({ onGetStarted }: SkinCareCalendarProps) {
   const dragControls = useDragControls();
   const [state, setState] = useState({
     view: 'calendar' as 'calendar' | 'routine' | 'insights' | 'plans',
@@ -693,7 +697,7 @@ export default function SkinCareCalendar() {
       <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-[#FFD6C4] rounded-full opacity-30 blur-xl" />
       
       {/* Main Calendar Container */}
-      <div className="relative bg-white/95 backdrop-blur-sm rounded-[32px] shadow-[0_8px_32px_-4px_rgba(139,69,19,0.1)] border border-[#E8C5B0]/20 overflow-hidden flex flex-col h-[700px]">
+      <div className="relative bg-[#FFF8F3]/95 backdrop-blur-sm rounded-[32px] shadow-[0_8px_32px_-4px_rgba(139,69,19,0.1)] border border-[#E8C5B0]/20 overflow-hidden flex flex-col h-[700px]">
         {/* Header with Tabs */}
         <div className="bg-gradient-to-b from-[#2C1810] via-[#3D2415] to-[#4A2B1A] relative z-10 flex-none rounded-b-[32px] shadow-lg">
           {/* Soft Glow Effect */}
@@ -1048,10 +1052,10 @@ export default function SkinCareCalendar() {
         {/* Bottom Action Button - Fixed at bottom with subtle gradient */}
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white/95 via-white/95 to-transparent">
           <motion.button 
-            onClick={() => updateState({ showCreatePlan: true })}
+            onClick={onGetStarted}
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-br from-[#2C1810] to-[#3D2415] text-white text-lg font-medium tracking-tight shadow-lg border border-[#E8C5B0]/20 transition-all duration-300"
+            className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] text-white text-lg font-medium tracking-tight shadow-lg border border-[#E8C5B0]/20 transition-all duration-300"
           >
             <div className="relative flex items-center justify-center gap-3">
               <span>Get Your Free 7-Day Plan</span>

@@ -6,7 +6,11 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process
 
 export async function POST(req: NextRequest) {
     try {
-        const { email, skinType, ethnicity, selectedConcerns, sensitivities, currentProducts } = await req.json();
+        const body = await req.json();
+        console.log('Received request body:', body);
+
+        const { email, skinType, ethnicity, selectedConcerns, sensitivities, currentProducts } = body;
+        
         if (!email) {
             return NextResponse.json({ success: false, message: "Email is required" }, { status: 400 });
         }
@@ -24,6 +28,12 @@ Sensitivities: ${sensitivities?.join(', ') || 'None'}
 Current Products: ${currentProducts?.join(', ') || 'None'}
         `.trim();
 
+        console.log('Creating Airtable record with:', {
+            email,
+            Notes: notes,
+            Source: 'Custom Plan Form'
+        });
+
         // Create the record in Airtable with correct field names
         const record = await base('Emails').create({
             email: email,
@@ -31,12 +41,21 @@ Current Products: ${currentProducts?.join(', ') || 'None'}
             Source: 'Custom Plan Form'
         });
 
+        console.log('Successfully created Airtable record:', record.id);
         return NextResponse.json({ success: true, id: record.id });
     } catch (error: unknown) {
         console.error("Error submitting to Airtable:", error);
         if (error instanceof Error) {
-            return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+            return NextResponse.json({ 
+                success: false, 
+                message: error.message,
+                details: error.stack 
+            }, { status: 500 });
         }
-        return NextResponse.json({ success: false, message: "An unknown error occurred" }, { status: 500 });
+        return NextResponse.json({ 
+            success: false, 
+            message: "An unknown error occurred",
+            details: String(error)
+        }, { status: 500 });
     }
 }

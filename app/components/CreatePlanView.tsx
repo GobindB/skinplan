@@ -136,15 +136,16 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
       return;
     }
 
-    // Format the selections as a readable string
-    const notes = [
-      `Skin Type: ${skinTypes.find(t => t.id === formData.skinType)?.name || formData.skinType}`,
-      `Concerns: ${formData.concerns.map(c => skinConcerns.find(sc => sc.id === c)?.name).join(', ')}`,
-      `Sensitivities: ${formData.sensitivities.map(s => sensitivities.find(ss => ss.id === s)?.name).join(', ')}`,
-      `Routine Level: ${routineLevels.find(r => r.id === formData.routineLevel)?.name || formData.routineLevel}`
-    ].join('\n');
-
     try {
+      console.log('Submitting form data:', {
+        email: formData.email,
+        skinType: formData.skinType,
+        selectedConcerns: formData.concerns,
+        sensitivities: formData.sensitivities,
+        currentProducts: [],
+        ethnicity: ''
+      });
+
       const response = await fetch('/api/submit-email', {
         method: 'POST',
         headers: {
@@ -152,12 +153,19 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
         },
         body: JSON.stringify({
           email: formData.email,
-          notes: notes
+          skinType: formData.skinType,
+          selectedConcerns: formData.concerns,
+          sensitivities: formData.sensitivities,
+          currentProducts: [],
+          ethnicity: ''
         }),
       });
 
+      const data = await response.json();
+      console.log('API response:', data);
+
       if (!response.ok) {
-        throw new Error('Failed to submit form');
+        throw new Error(data.message || 'Failed to submit form');
       }
 
       // Show success message and close
