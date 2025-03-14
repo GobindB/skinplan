@@ -93,8 +93,36 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
           </h2>
 
           <p className="text-xl text-white/60 mb-12">
-            Join {waitlistCount.toLocaleString('en-US')} others who are already on their way to healthier, more radiant skin with AI-powered personalization.
+            Our AI creates personalized skincare routines that evolve with your skin. Get expert guidance and track your progress.
           </p>
+
+          {/* How It Works Section */}
+          <div className="max-w-3xl mx-auto mb-16">
+            <h3 className="text-2xl font-semibold text-white mb-8 text-center">How It Works</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF3BFF] to-[#5C24FF] flex items-center justify-center mx-auto mb-4">
+                  <span className="text-xl font-bold text-white">1</span>
+                </div>
+                <h4 className="text-lg font-medium text-white mb-2">Analyze Your Skin</h4>
+                <p className="text-sm text-white/60">Take our comprehensive skin assessment to help us understand your unique needs</p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF3BFF] to-[#5C24FF] flex items-center justify-center mx-auto mb-4">
+                  <span className="text-xl font-bold text-white">2</span>
+                </div>
+                <h4 className="text-lg font-medium text-white mb-2">Get Your Plan</h4>
+                <p className="text-sm text-white/60">Receive a personalized routine tailored to your skin type and concerns</p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF3BFF] to-[#5C24FF] flex items-center justify-center mx-auto mb-4">
+                  <span className="text-xl font-bold text-white">3</span>
+                </div>
+                <h4 className="text-lg font-medium text-white mb-2">Track Progress</h4>
+                <p className="text-sm text-white/60">Monitor your improvement and adjust your routine as needed</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="relative">
@@ -103,58 +131,62 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
               {/* Left Column - Features */}
               <div>
                 <h3 className="text-2xl font-semibold text-white mb-8">
-                  Get Your Personalized Plan
+                  What You'll Get
                 </h3>
 
-                <div className="space-y-6">
-                  {[
-                    {
-                      icon: (
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                      ),
-                      title: "Structured Plans",
-                      description: "Tailored routines based on your unique skin needs"
-                    },
-                    {
-                      icon: (
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      ),
-                      title: "Expert Guidance",
-                      description: "Professional skincare recommendations"
-                    },
-                    {
-                      icon: (
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                        </svg>
-                      ),
-                      title: "Personalized Care",
-                      description: "Routines that adapt to your needs"
-                    }
-                  ].map((feature, index) => (
-                    <div key={index} className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#FF3BFF] to-[#5C24FF] flex items-center justify-center flex-shrink-0">
-                        {feature.icon}
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-medium text-white mb-1">{feature.title}</h4>
-                        <p className="text-white/60">{feature.description}</p>
-                      </div>
-                    </div>
-                  ))}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5 text-[#FF3BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-white/80">Personalized skincare routine</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5 text-[#FF3BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-white/80">Expert recommendations</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5 text-[#FF3BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-white/80">Progress tracking tools</span>
+                  </div>
                 </div>
               </div>
 
               {/* Right Column - Form */}
               <div className="lg:border-l lg:border-white/10 lg:pl-20">
+                <div className="mb-8">
+                  <h3 className="text-xl font-semibold text-white mb-4">Ready to Start?</h3>
+                  <p className="text-white/60 mb-4">Join our waitlist to be among the first to experience personalized skincare. You'll receive:</p>
+                  <ul className="space-y-3">
+                    <li className="flex items-center gap-2 text-white/60">
+                      <svg className="w-5 h-5 text-[#FF3BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Early access to the platform
+                    </li>
+                    <li className="flex items-center gap-2 text-white/60">
+                      <svg className="w-5 h-5 text-[#FF3BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Exclusive skincare tips and guides
+                    </li>
+                    <li className="flex items-center gap-2 text-white/60">
+                      <svg className="w-5 h-5 text-[#FF3BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Special launch offers
+                    </li>
+                  </ul>
+                </div>
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
-                      Email Address
+                      Join the Waitlist
                     </label>
                     <input
                       type="email"
@@ -191,7 +223,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
                         Success! Creating your plan...
                       </div>
                     ) : (
-                      'Join the Waitlist'
+                      'Get Early Access'
                     )}
                   </button>
 

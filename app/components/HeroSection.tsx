@@ -40,10 +40,32 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
               </span>
             </h1>
 
-            {/* Subheadline */}
+            {/* Product Description */}
             <p className="text-lg lg:text-xl text-white/60 mb-8 max-w-xl">
-              Experience personalized skincare that adapts to you.
+              AI-powered skincare that creates and adapts your personalized routine. Get expert recommendations and track your progress.
             </p>
+
+            {/* Key Features */}
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5">
+                <svg className="w-5 h-5 text-[#FF3BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <span className="text-sm text-white/80">Smart Routines</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5">
+                <svg className="w-5 h-5 text-[#FF3BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-sm text-white/80">Expert Guidance</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5">
+                <svg className="w-5 h-5 text-[#FF3BFF]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span className="text-sm text-white/80">Progress Tracking</span>
+              </div>
+            </div>
 
             {/* Email Signup Form */}
             <div className="mb-6 w-full max-w-md">
