@@ -14,7 +14,7 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCount, onGetStarted }) => {
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-[#FFF1E6] text-[#5C3D2E] overflow-hidden py-20 lg:py-0">
-      {/* Gradient Orbs */}
+      {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] opacity-[0.15] blur-[120px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-[#B86B4C] to-[#D4A092] opacity-[0.15] blur-[120px]" />
@@ -91,9 +91,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
 
           {/* Right Column - Calendar */}
           <div className="relative">
-            <div className="relative max-w-[380px] mx-auto">
-              {/* Calendar Container */}
-              <div className="group relative rounded-2xl overflow-hidden">
+            <div className="relative max-w-[420px] mx-auto">
+              <div className="group relative rounded-2xl overflow-hidden bg-[#FFF1E6]">
                 <div className="relative">
                   <SkinCareCalendar onGetStarted={onGetStarted} />
                 </div>

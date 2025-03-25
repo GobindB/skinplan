@@ -62,7 +62,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
   };
 
   return (
-    <section id="waitlist-section" className="relative py-20 bg-gradient-to-b from-[#FFE4D6] via-[#FFF1E6] to-white text-[#2C1810] overflow-hidden">
+    <section id="how-it-works" className="relative py-20 bg-gradient-to-b from-[#FFE4D6] via-[#FFF1E6] to-white text-[#2C1810] overflow-hidden">
       {/* Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 right-1/4 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#E8C5B0] to-[#FFD6C4] opacity-[0.15] blur-[140px]" />
