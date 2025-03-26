@@ -697,7 +697,7 @@ export default function SkinCareCalendar({ onGetStarted }: SkinCareCalendarProps
       <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-[#FFD6C4] rounded-full opacity-30 blur-xl" />
       
       {/* Main Calendar Container */}
-      <div className="relative bg-[#FFF8F3]/95 backdrop-blur-sm rounded-[32px] shadow-[0_8px_32px_-4px_rgba(139,69,19,0.1)] border border-[#E8C5B0]/20 overflow-hidden flex flex-col min-h-[700px] max-h-[80vh] w-full max-w-4xl">
+      <div className="relative rounded-[32px] shadow-[0_8px_32px_-4px_rgba(139,69,19,0.1)] border border-[#E8C5B0]/20 overflow-hidden flex flex-col min-h-[700px] max-h-[80vh] w-full max-w-4xl">
         {/* Header with Tabs */}
         <div className="bg-gradient-to-b from-[#2C1810] via-[#3D2415] to-[#4A2B1A] relative z-10 flex-none rounded-b-[32px] shadow-lg">
           {/* Soft Glow Effect */}

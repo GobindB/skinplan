@@ -16,14 +16,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
     <section className="relative min-h-screen flex items-center justify-center bg-[#FFF1E6] text-[#5C3D2E] overflow-hidden py-20 lg:py-0">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] opacity-[0.15] blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-[#B86B4C] to-[#D4A092] opacity-[0.15] blur-[120px]" />
+        <div className="absolute top-1/4 -left-[400px] w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] opacity-[0.15] blur-[120px]" />
+        <div className="absolute bottom-1/4 -right-[300px] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-[#B86B4C] to-[#D4A092] opacity-[0.15] blur-[120px]" />
       </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-4 lg:px-6 w-full">
+      <div className="relative w-full max-w-[1400px] mx-auto px-4 lg:px-6">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column */}
-          <div className="relative z-10 flex flex-col items-center text-center pt-16 lg:pt-0">
+          <div className="relative z-10 flex flex-col items-center text-center pt-16 lg:pt-0 w-full">
             {/* Early Access Beta Badge */}
             <div className="mb-8">
               <span className="px-3 py-1 text-xs font-medium text-[#B86B4C] bg-[#E68A6C]/10 rounded-full">
@@ -47,7 +47,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
             </p>
 
             {/* Key Features */}
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <div className="flex flex-wrap justify-center gap-4 mb-8 w-full max-w-xl">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#E8D5C8]/30">
                 <svg className="w-5 h-5 text-[#B86B4C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -92,7 +92,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, waitlistCou
           {/* Right Column - Calendar */}
           <div className="relative">
             <div className="relative max-w-[420px] mx-auto">
-              <div className="group relative rounded-2xl overflow-hidden bg-[#FFF1E6]">
+              <div className="group relative rounded-2xl overflow-hidden">
                 <div className="relative">
                   <SkinCareCalendar onGetStarted={onGetStarted} />
                 </div>

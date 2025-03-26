@@ -62,20 +62,20 @@ export const CallToAction: React.FC<CallToActionProps> = ({ waitlistCount, onGet
   };
 
   return (
-    <section id="how-it-works" className="relative py-20 bg-gradient-to-b from-[#FFE4D6] via-[#FFF1E6] to-white text-[#2C1810] overflow-hidden">
+    <section id="how-it-works" className="relative py-20 bg-gradient-to-b from-[#FFE4D6] via-[#FFF1E6] to-white text-[#2C1810] overflow-x-hidden">
       {/* Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#E8C5B0] to-[#FFD6C4] opacity-[0.15] blur-[140px]" />
-        <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-[#FFE4D6] to-[#E8C5B0] opacity-[0.15] blur-[140px]" />
+        <div className="absolute top-1/4 -right-[400px] w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#E8C5B0] to-[#FFD6C4] opacity-[0.15] blur-[140px]" />
+        <div className="absolute bottom-1/4 -left-[300px] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-[#FFE4D6] to-[#E8C5B0] opacity-[0.15] blur-[140px]" />
       </div>
 
       {/* Section Transition - Top */}
       <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#FFE4D6] via-[#FFE4D6]/50 to-transparent pointer-events-none" />
 
-      <div className="relative max-w-[1200px] mx-auto px-6">
-        <div className="max-w-2xl mx-auto text-center mb-16">
+      <div className="relative w-full max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="w-full max-w-2xl mx-auto text-center mb-16">
           {/* Beta Tag */}
-          <div className="inline-flex items-center gap-4 px-3 py-1.5 rounded-full bg-[#E8D5C8]/30 border border-[#E8C5B0] mb-8">
+          <div className="inline-flex items-center gap-4 px-3 py-1.5 rounded-full bg-[#E8D5C8]/30 border border-[#E8C5B0] mb-8 max-w-full overflow-hidden">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-[#E8855B]" />
               <span className="text-xs font-medium tracking-wide text-[#5C3D2E]">

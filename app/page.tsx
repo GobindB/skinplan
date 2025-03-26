@@ -47,7 +47,7 @@ export default function Page() {
     }
 
     return (
-        <main className="bg-[#0A0A0E]">
+        <main className="bg-[#0A0A0E] overflow-x-hidden relative w-full">
             <Navigation onGetStarted={() => handleGetStarted()} />
             <HeroSection isVisible={isVisible} waitlistCount={waitlistCount} onGetStarted={handleGetStarted} />
             <AppStoreSection />

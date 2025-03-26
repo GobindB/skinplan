@@ -3,19 +3,19 @@ import Link from 'next/link';
 
 export const Footer = () => {
   return (
-    <footer className="relative bg-[#FFF1E6] text-[#2C1810] overflow-hidden">
+    <footer className="relative bg-[#FFF1E6] text-[#2C1810] overflow-x-hidden">
       {/* Gradient Orb */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] rounded-full bg-gradient-to-r from-[#E8C5B0] to-[#FFD6C4] opacity-[0.15] blur-[120px]" />
       </div>
 
       {/* Main Content */}
-      <div className="relative max-w-[1200px] mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-16">
+      <div className="relative w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-20">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 mb-16">
           {/* Brand Column */}
-          <div className="md:col-span-4">
+          <div className="md:col-span-4 w-full">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] flex-shrink-0 flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
@@ -40,7 +40,7 @@ export const Footer = () => {
           </div>
 
           {/* Links Columns */}
-          <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8 w-full">
             <div>
               <h4 className="text-sm font-medium text-[#5C3D2E] mb-4">Product</h4>
               <ul className="space-y-3">
@@ -71,9 +71,9 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-[#E8C5B0]/20">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6">
+        <div className="pt-8 border-t border-[#E8C5B0]/20 w-full">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 w-full">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 w-full sm:w-auto">
               <p className="text-sm text-[#86604A]">
                 © 2024 SkinPlan. All rights reserved.
               </p>

@@ -25,11 +25,11 @@ interface PricingSectionProps {
 
 export const PricingSection: React.FC<PricingSectionProps> = ({ onGetStarted }) => {
   return (
-    <section id="pricing" className="relative py-20 bg-gradient-to-b from-white via-[#FFF1E6] to-[#FFE4D6]">
+    <section id="pricing" className="relative py-20 bg-gradient-to-b from-white via-[#FFF1E6] to-[#FFE4D6] overflow-x-hidden">
       {/* Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#E8C5B0] to-[#FFD6C4] opacity-[0.15] blur-[140px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-[#FFE4D6] to-[#E8C5B0] opacity-[0.15] blur-[140px]" />
+        <div className="absolute top-1/4 -left-[400px] w-[800px] h-[800px] rounded-full bg-gradient-to-r from-[#E8C5B0] to-[#FFD6C4] opacity-[0.15] blur-[140px]" />
+        <div className="absolute bottom-1/4 -right-[300px] w-[600px] h-[600px] rounded-full bg-gradient-to-r from-[#FFE4D6] to-[#E8C5B0] opacity-[0.15] blur-[140px]" />
       </div>
 
       {/* Section Transition - Top */}
@@ -38,10 +38,10 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onGetStarted }) 
       {/* Section Transition - Bottom */}
       <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FFE4D6] via-[#FFE4D6]/50 to-transparent pointer-events-none" />
 
-      <div className="relative max-w-[1200px] mx-auto px-6">
-        <div className="text-center mb-16">
+      <div className="relative w-full max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="text-center mb-16 w-full">
           {/* Beta Tag */}
-          <div className="inline-flex items-center gap-4 px-3 py-1.5 rounded-full bg-[#E8D5C8]/30 border border-[#E8C5B0] mb-8">
+          <div className="inline-flex items-center gap-4 px-3 py-1.5 rounded-full bg-[#E8D5C8]/30 border border-[#E8C5B0] mb-8 max-w-full overflow-hidden">
             <span className="text-xs font-medium tracking-wide text-[#5C3D2E]">
               Early Access Pricing
             </span>
