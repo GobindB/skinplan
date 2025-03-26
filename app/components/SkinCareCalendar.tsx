@@ -648,28 +648,23 @@ export default function SkinCareCalendar({ onGetStarted }: SkinCareCalendarProps
 
   const generateCalendarDays = (): CalendarDay[] => {
     const days: CalendarDay[] = [];
-    const start = new Date(state.currentMonth.getFullYear(), state.currentMonth.getMonth(), 1);
-    const end = new Date(state.currentMonth.getFullYear(), state.currentMonth.getMonth() + 1, 0);
+    const today = new Date();
+    const currentDay = today.getDay();
     
-    // Add empty days for padding
-    const firstDayOfWeek = start.getDay();
-    for (let i = 0; i < firstDayOfWeek; i++) {
-      days.push({
-        date: new Date(start.getTime() - ((firstDayOfWeek - i) * 24 * 60 * 60 * 1000)),
-        hasRoutine: false,
-        hasInsights: false,
-        progress: 0
-      });
-    }
+    // Get the start of the current week (Sunday)
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - currentDay);
     
-    // Add actual days
-    for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
+    // Generate 7 days starting from Sunday
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + i);
       days.push({
-        date: new Date(date),
+        date: date,
         hasRoutine: Math.random() > 0.2, // Demo data
         hasInsights: Math.random() > 0.7,
         progress: Math.floor(Math.random() * 100),
-        isToday: new Date().toDateString() === date.toDateString()
+        isToday: today.toDateString() === date.toDateString()
       });
     }
     return days;
@@ -678,13 +673,13 @@ export default function SkinCareCalendar({ onGetStarted }: SkinCareCalendarProps
   // Use useMemo with correct dependency
   const calendarDays = useMemo(() => generateCalendarDays(), [state.currentMonth]);
 
-  const navigateMonth = (direction: 'prev' | 'next') => {
+  const navigateWeek = (direction: 'prev' | 'next') => {
     setState(prev => {
       const newDate = new Date(prev.currentMonth);
       if (direction === 'prev') {
-        newDate.setMonth(prev.currentMonth.getMonth() - 1);
+        newDate.setDate(prev.currentMonth.getDate() - 7);
       } else {
-        newDate.setMonth(prev.currentMonth.getMonth() + 1);
+        newDate.setDate(prev.currentMonth.getDate() + 7);
       }
       return { ...prev, currentMonth: newDate };
     });
@@ -692,12 +687,8 @@ export default function SkinCareCalendar({ onGetStarted }: SkinCareCalendarProps
 
   return (
     <div className="relative w-full flex items-center justify-center min-h-screen py-16">
-      {/* Decorative Elements */}
-      <div className="absolute -top-6 -left-6 w-24 h-24 bg-[#FFE4D6] rounded-full opacity-40 blur-xl" />
-      <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-[#FFD6C4] rounded-full opacity-30 blur-xl" />
-      
       {/* Main Calendar Container */}
-      <div className="relative rounded-[32px] shadow-[0_8px_32px_-4px_rgba(139,69,19,0.1)] border border-[#E8C5B0]/20 overflow-hidden flex flex-col min-h-[700px] max-h-[80vh] w-full max-w-4xl">
+      <div className="relative rounded-[32px] shadow-[0_8px_32px_-4px_rgba(139,69,19,0.1)] border border-[#E8C5B0]/20 overflow-hidden flex flex-col h-[700px] w-full max-w-4xl bg-gradient-to-br from-[#FFF8F3] via-[#FFF5ED] to-[#FFF0E6]">
         {/* Header with Tabs */}
         <div className="bg-gradient-to-b from-[#2C1810] via-[#3D2415] to-[#4A2B1A] relative z-10 flex-none rounded-b-[32px] shadow-lg">
           {/* Soft Glow Effect */}
@@ -734,22 +725,22 @@ export default function SkinCareCalendar({ onGetStarted }: SkinCareCalendarProps
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto overscroll-y-contain px-4 pt-6 pb-24 bg-transparent">
+        <div className="flex-1 overflow-y-auto overscroll-y-contain px-4 pt-6 pb-24 bg-[#FFF8F3]">
           {state.view === 'calendar' && (
             <div className="space-y-6">
-              {/* Month Navigation */}
+              {/* Week Navigation */}
               <div className="flex items-center justify-between">
                 <button 
-                  onClick={() => navigateMonth('prev')}
+                  onClick={() => navigateWeek('prev')}
                   className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/50 hover:bg-white/80 active:bg-white text-[#2C1810] transition-all duration-300 shadow-sm"
                 >
                   <ArrowLeftIcon className="w-5 h-5" />
                 </button>
                 <h2 className="text-lg font-medium text-[#2C1810]">
-                  {state.currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  {state.currentMonth.toLocaleString('default', { month: 'long', day: 'numeric' })} - {new Date(state.currentMonth.getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleString('default', { month: 'long', day: 'numeric' })}
                 </h2>
                 <button 
-                  onClick={() => navigateMonth('next')}
+                  onClick={() => navigateWeek('next')}
                   className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/50 hover:bg-white/80 active:bg-white text-[#2C1810] transition-all duration-300 shadow-sm"
                 >
                   <ArrowRightIcon className="w-5 h-5" />
@@ -774,10 +765,6 @@ export default function SkinCareCalendar({ onGetStarted }: SkinCareCalendarProps
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className={`aspect-square relative rounded-2xl transition-all duration-300 ${
-                        day.date.getMonth() !== state.currentMonth.getMonth()
-                          ? 'opacity-30'
-                          : ''
-                      } ${
                         state.selectedDay?.toDateString() === day.date.toDateString()
                           ? 'bg-[#E8855B] text-white shadow-lg transform -translate-y-0.5'
                           : day.hasRoutine
