@@ -340,31 +340,31 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
       <motion.div
         ref={modalRef}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative w-full max-w-2xl bg-[#FFF1E6] rounded-2xl shadow-xl overflow-hidden"
+        className="relative w-full max-w-2xl bg-[#FFF1E6] rounded-2xl shadow-xl overflow-hidden my-4"
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-[#E8D5C8]/30 transition-colors"
+          className="absolute top-2 right-2 sm:top-4 sm:right-4 p-2 rounded-lg hover:bg-[#E8D5C8]/30 transition-colors z-10"
         >
           <XMarkIcon className="w-5 h-5 text-[#5C3D2E]" />
         </button>
 
         {/* Header */}
-        <div className="p-6 border-b border-[#E8C5B0]/20">
+        <div className="p-4 sm:p-6 border-b border-[#E8C5B0]/20">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] flex items-center justify-center">
-              <SparklesIcon className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] flex items-center justify-center">
+              <SparklesIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
-            <h2 className="text-xl font-semibold text-[#2C1810]">Create Your Plan</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-[#2C1810]">Create Your Plan</h2>
           </div>
-          <p className="text-[#86604A]">
+          <p className="text-sm sm:text-base text-[#86604A]">
             {steps[currentStep].description}
           </p>
         </div>
@@ -379,12 +379,12 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
         </div>
 
         {/* Content */}
-        <div className="p-6">
-          <div className="mb-6">
-            <h3 className="text-lg font-medium text-[#2C1810] mb-2">
+        <div className="p-4 sm:p-6">
+          <div className="mb-4 sm:mb-6">
+            <h3 className="text-base sm:text-lg font-medium text-[#2C1810] mb-2">
               {steps[currentStep].title}
             </h3>
-            <p className="text-[#86604A]">
+            <p className="text-sm sm:text-base text-[#86604A]">
               {steps[currentStep].description}
             </p>
           </div>
@@ -392,11 +392,11 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
           {renderStepContent()}
 
           {/* Navigation */}
-          <div className="mt-8 flex justify-between items-center">
+          <div className="mt-6 sm:mt-8 flex justify-between items-center">
             {currentStep > 0 && (
               <button
                 onClick={handleBack}
-                className="px-4 py-2 text-[#5C3D2E] hover:text-[#2C1810] transition-colors"
+                className="px-3 py-2 text-sm sm:text-base text-[#5C3D2E] hover:text-[#2C1810] transition-colors"
               >
                 Back
               </button>
@@ -404,14 +404,14 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
             {currentStep < steps.length - 1 ? (
               <button
                 onClick={handleNext}
-                className="ml-auto px-6 py-2 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] text-white font-medium hover:opacity-90 transition-opacity shadow-lg shadow-[#E8855B]/25"
+                className="ml-auto px-4 sm:px-6 py-2 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] text-white text-sm sm:text-base font-medium hover:opacity-90 transition-opacity shadow-lg shadow-[#E8855B]/25"
               >
                 Next
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
-                className="ml-auto px-6 py-2 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] text-white font-medium hover:opacity-90 transition-opacity shadow-lg shadow-[#E8855B]/25"
+                className="ml-auto px-4 sm:px-6 py-2 rounded-xl bg-gradient-to-r from-[#E68A6C] to-[#B86B4C] text-white text-sm sm:text-base font-medium hover:opacity-90 transition-opacity shadow-lg shadow-[#E8855B]/25"
               >
                 Create Plan
               </button>
@@ -420,7 +420,7 @@ export default function CreatePlanView({ onClose, initialEmail = '' }: { onClose
         </div>
 
         {/* Footer */}
-        <div className="p-6 bg-[#E8D5C8]/30 border-t border-[#E8C5B0]/20">
+        <div className="p-4 sm:p-6 bg-[#E8D5C8]/30 border-t border-[#E8C5B0]/20">
           <LegalLinks />
         </div>
       </motion.div>

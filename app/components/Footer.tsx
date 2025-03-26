@@ -39,32 +39,13 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Links Columns */}
-          <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8 w-full">
-            <div>
-              <h4 className="text-sm font-medium text-[#5C3D2E] mb-4">Product</h4>
-              <ul className="space-y-3">
-                <FooterLink href="#">Features</FooterLink>
-                <FooterLink href="#">How it Works</FooterLink>
-                <FooterLink href="#">Pricing</FooterLink>
-                <FooterLink href="#">FAQ</FooterLink>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-medium text-[#5C3D2E] mb-4">Company</h4>
-              <ul className="space-y-3">
-                <FooterLink href="#">About</FooterLink>
-                <FooterLink href="#">Blog</FooterLink>
-                <FooterLink href="#">Careers</FooterLink>
-                <FooterLink href="#">Contact</FooterLink>
-              </ul>
-            </div>
+          {/* Links Column */}
+          <div className="md:col-span-8 flex justify-end">
             <div>
               <h4 className="text-sm font-medium text-[#5C3D2E] mb-4">Legal</h4>
               <ul className="space-y-3">
                 <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
                 <FooterLink href="/terms-of-service">Terms of Service</FooterLink>
-                <FooterLink href="#">Security</FooterLink>
               </ul>
             </div>
           </div>
